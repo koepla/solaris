@@ -1,0 +1,72 @@
+//
+// MIT License
+//
+// Copyright (c) 2023 Elias Engelbert Plank
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+#ifndef SOLARIS_EPHEMERIS_PLANET_H
+#define SOLARIS_EPHEMERIS_PLANET_H
+
+#include <libsolaris/date-time.h>
+#include <libsolaris/ephemeris/coordinates.h>
+#include <libsolaris/math.h>
+#include <libsolaris/utility/string.h>
+
+typedef enum PlanetName {
+    PLANET_MERCURY,
+    PLANET_VENUS,
+    PLANET_EARTH,
+    PLANET_MARS,
+    PLANET_JUPITER,
+    PLANET_SATURN,
+    PLANET_URANUS,
+    PLANET_NEPTUNE,
+    PLANET_COUNT
+} PlanetName;
+
+typedef struct Elements {
+    f64 semi_major_axis;
+    f64 eccentricity;
+    f64 inclination;
+    f64 mean_longitude;
+    f64 longitude_perihelion;
+    f64 longitude_ascending_node;
+} Elements;
+
+typedef struct Planet {
+    PlanetName name;
+    Elements orbit;
+    Elements rate;
+} Planet;
+
+/// Creates a new planet
+/// @param name the name of the planet
+/// @param orbit The orbital elements of the planet
+/// @param rate The rate of change of the orbital elements in [°/century]
+/// @return A newly created planet
+Planet planet_new(PlanetName name, Elements* orbit, Elements* rate);
+
+/// Computes the equatorial position of the planet
+/// @param planet The planet
+/// @param date date and time for the computation
+/// @return the computed equatorial coordinates
+Equatorial planet_position(Planet* planet, DateTime* date);
+
+#endif// SOLARIS_EPHEMERIS_PLANET_H
