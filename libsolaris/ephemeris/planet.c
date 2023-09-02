@@ -23,6 +23,7 @@
 
 #include <libsolaris/ephemeris/planet.h>
 
+/// Computes the eccentric anomaly using an iterative approach of keplers equation
 f64 eccentric_anomaly(f64 mean_anomaly, f64 eccentricity) {
     f64 eccentricity_degrees = math_degrees(eccentricity);
     f64 result = mean_anomaly + eccentricity_degrees * math_sine(mean_anomaly);
@@ -38,6 +39,7 @@ f64 eccentric_anomaly(f64 mean_anomaly, f64 eccentricity) {
     return result;
 }
 
+/// Computes the heliocentric position of the earth at the given point in time
 Vector3 position_of_earth(f64 julian_centuries) {
     // The EM-Barycenter kepler elements are hardcoded because they are needed for every computation
     Elements elements;
@@ -63,6 +65,7 @@ Vector3 position_of_earth(f64 julian_centuries) {
     return matrix3x3_mul_vector3(&rotation, &in_orbit);
 }
 
+/// Computes the equatorial position of the planet
 Equatorial planet_position(Planet* planet, DateTime* date) {
     f64 t = date_time_jc(date, false);
 

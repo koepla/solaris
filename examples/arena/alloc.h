@@ -26,6 +26,6 @@
 
 #include <libsolaris/utility/arena.h>
 
-int arena_alloc(int argc, char** argv);
+_Noreturn int arena_alloc(int argc, char** argv);
 
 #endif// SOLARIS_EXAMPLES_ARENA_ALLOC_H

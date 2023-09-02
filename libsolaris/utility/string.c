@@ -24,9 +24,9 @@
 #include <assert.h>
 #include <libsolaris/utility/string.h>
 
-/// Creates a null String
-String string_null() {
-    String result = { .base = NULL, .length = 0 };
+/// Creates a nil String
+String string_nil() {
+    String result = { .base = nil, .length = 0 };
     return result;
 }
 
@@ -38,9 +38,9 @@ String string_new(MemoryArena* arena, ssize length) {
     return result;
 }
 
-/// Creates a null StringView
-StringView string_view_null() {
-    StringView result = { .data = NULL, .length = 0 };
+/// Creates a nil StringView
+StringView string_view_nil() {
+    StringView result = { .data = nil, .length = 0 };
     return result;
 }
 
@@ -54,7 +54,7 @@ StringView string_view_new(const char* str, ssize length) {
 
 /// Retrieves the length of a zero terminated C string
 ssize zero_string_length(const char* str) {
-    if (str == NULL) {
+    if (str == nil) {
         return -1;
     }
 

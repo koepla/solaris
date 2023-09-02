@@ -29,6 +29,10 @@
 #include <libsolaris/ephemeris/planet.h>
 #include <libsolaris/math.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct CatalogCollection {
     MemoryArena* arena;
     Planet* planets;
@@ -45,7 +49,7 @@ typedef struct CatalogCollection {
 ///       user of the catalog, who provides the arena. The catalog
 ///       objects die together with the arena, as this is the
 ///       place where they reside in memory
-CatalogCollection catalog_collection_new(MemoryArena* arena);
+SOLARIS_API CatalogCollection catalog_collection_new(MemoryArena* arena);
 
 /// Decode a model file of the NGC format
 /// @param catalog The catalog which stores the decoded entries
@@ -55,7 +59,7 @@ CatalogCollection catalog_collection_new(MemoryArena* arena);
 ///       following web page: https://cdsarc.cds.unistra.fr/ftp/VII/118/ReadMe.
 ///       Any other models are currently unsupported, it is up to the user
 ///       to manually load other models.
-void catalog_collection_decode(CatalogCollection* catalog, StringView* model);
+SOLARIS_API void catalog_collection_decode(CatalogCollection* catalog, StringView* model);
 
 typedef struct ComputeResult {
     f64* altitudes;
@@ -86,7 +90,10 @@ typedef struct ComputeSpecification {
 //        of the need for a reallocation whenever a user increases the steps.
 //        Another suggested approach would be to limit the number of steps
 //        a user can specify, and pre-allocate the required space in result.
-void compute_geographic_planet(MemoryArena* arena, ComputeResult* result, Planet* planet, ComputeSpecification* spec);
+SOLARIS_API void compute_geographic_planet(MemoryArena* arena,
+                                           ComputeResult* result,
+                                           Planet* planet,
+                                           ComputeSpecification* spec);
 
 /// Compute the geographic position of the specified fixed object according
 /// to the specification
@@ -103,9 +110,13 @@ void compute_geographic_planet(MemoryArena* arena, ComputeResult* result, Planet
 //        of the need for a reallocation whenever a user increases the steps.
 //        Another suggested approach would be to limit the number of steps
 //        a user can specify, and pre-allocate the required space in result.
-void compute_geographic_fixed(MemoryArena* arena,
-                              ComputeResult* result,
-                              FixedObject* object,
-                              ComputeSpecification* spec);
+SOLARIS_API void compute_geographic_fixed(MemoryArena* arena,
+                                          ComputeResult* result,
+                                          FixedObject* object,
+                                          ComputeSpecification* spec);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif// SOLARIS_EPHEMERIS_CATALOG_H

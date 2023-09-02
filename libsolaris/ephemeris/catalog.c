@@ -22,14 +22,14 @@
 // SOFTWARE.
 
 #include <libsolaris/ephemeris/catalog.h>
-#include <stdio.h>
 
 /// Create a new catalog collection
 CatalogCollection catalog_collection_new(MemoryArena* arena) {
-    CatalogCollection result = { .arena = arena, .objects = NULL, .planets = NULL };
+    CatalogCollection result = { .arena = arena, .objects = nil, .planets = nil };
     return result;
 }
 
+/// Internal Line iterator structure
 typedef struct LineIterator {
     StringView source;
     ssize offset;
@@ -70,21 +70,31 @@ b8 line_iterator_next(LineIterator* it, StringView* next) {
     return true;
 }
 
+/// Decode a model line of the NGC format
+void catalog_collection_decode_line(FixedObject* object, StringView* line) { }
+
 /// Decode a model file of the NGC format
 void catalog_collection_decode(CatalogCollection* catalog, StringView* model) {
     LineIterator iterator = line_iterator_make(model);
+
+    // We precount the number of expected objects in order to make on big allocation.
+    // This allows us to store the elements in a random-accessible contignous array,
+    // instead of something like a linked list.
+    // Maybe we will organize the objects in a btree of some sort (maybe per catalog,
+    // per index) in the future, for now we will stick with that simple approach.
     usize count = line_iterator_count(&iterator);
     catalog->objects = (FixedObject*) memory_arena_alloc(catalog->arena, count * sizeof(FixedObject));
-
-    printf("[catalog]: expecting %lld lines\n", count);
-    for (StringView line = { 0 }; line_iterator_next(&iterator, &line);) {
-        printf("[catalog]: parsing line %.*s\n", (int) line.length, line.data);
-    }
+    for (StringView line = { 0 }; line_iterator_next(&iterator, &line);) { }
 }
 
 /// Compute the geographic position of the specified planet according
 /// to the spec
 void compute_geographic_planet(MemoryArena* arena, ComputeResult* result, Planet* planet, ComputeSpecification* spec) {
+    // TODO(elias-plank): We will probably change the way we handle this. A better approach
+    // would be to just expect that the provided ComputeResult has enough room for the computation.
+    // If that is not the case, we could return the number of written computation steps. Clearly,
+    // our current approach is not optimal, as it could lead to unexpected behaviour when
+    // not used 100% correctly.
     if (result->capacity < spec->steps) {
         result->altitudes = (f64*) memory_arena_alloc(arena, spec->steps * sizeof(f64));
         result->azimuths = (f64*) memory_arena_alloc(arena, spec->steps * sizeof(f64));

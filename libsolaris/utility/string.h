@@ -26,13 +26,17 @@
 
 #include <libsolaris/utility/arena.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct String {
     char* base;
     ssize length;
 } String;
 
-/// Creates a null String
-String string_null();
+/// Creates a nil String
+SOLARIS_API String string_nil();
 
 /// Creates a new String instance
 /// @param arena The arena for the allocation
@@ -42,50 +46,54 @@ String string_null();
 /// @note Strings are heap allocated, which is the reason
 ///       why an arena is necessary. For views to constant
 ///       strings see StringView
-String string_new(MemoryArena* arena, ssize length);
+SOLARIS_API String string_new(MemoryArena* arena, ssize length);
 
 typedef struct StringView {
     const char* data;
     ssize length;
 } StringView;
 
-/// Creates a null StringView
-StringView string_view_null();
+/// Creates a nil StringView
+SOLARIS_API StringView string_view_nil();
 
 /// Creates a new StringView instance
 /// @param str The string
 /// @param length The length of the string
 /// @return StringView instance
-StringView string_view_new(const char* str, ssize length);
+SOLARIS_API StringView string_view_new(const char* str, ssize length);
 
 /// Creates a new StringView instance from a zero terminated C string
 /// @param str The string
 /// @return StringView instance
-StringView string_view_new_zero(const char* str);
+SOLARIS_API StringView string_view_new_zero(const char* str);
 
 /// Creates a new StringView instance from a String
 /// @param string The string
 /// @return StringView instance
-StringView string_view_from_string(String* string);
+SOLARIS_API StringView string_view_from_string(String* string);
 
 /// Checks whether the provided StringViews are equal in terms of
 /// length and data
 /// @param left
 /// @param right
 /// @return Boolean that indicates equality
-b8 string_view_equal(StringView* left, StringView* right);
+SOLARIS_API b8 string_view_equal(StringView* left, StringView* right);
 
 /// Creates a substring
 /// @param view The view that contains the substring
 /// @param offset The offset where the substring should start
 /// @param length The length of the substring
 /// @return A substring
-StringView string_view_substring(StringView* view, ssize offset, ssize length);
+SOLARIS_API StringView string_view_substring(StringView* view, ssize offset, ssize length);
 
 /// Retrieves the leftmost index of the specified symbol in the view
 /// @param view The view for the index search
 /// @param symbol The symbol to search for
 /// @return The index if the symbol was found, -1 if there are zero occurrences
-ssize string_view_index_of(StringView* view, char symbol);
+SOLARIS_API ssize string_view_index_of(StringView* view, char symbol);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif// SOLARIS_UTILITY_STRING_H

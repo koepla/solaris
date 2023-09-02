@@ -26,6 +26,10 @@
 
 #include <libsolaris/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef void* (*MemoryReserveFunc)(size_t);
 typedef void (*MemoryReleaseFunc)(void*);
 
@@ -56,20 +60,24 @@ typedef struct MemoryArena {
 /// Creates a new memory arena
 /// @param arena The arena
 /// @param spec The arena specification
-MemoryArena memory_arena_new(MemoryArenaSpecification* spec);
+SOLARIS_API MemoryArena memory_arena_new(MemoryArenaSpecification* spec);
 
 /// Destroys the specified memory arena
 /// @param arena The arena
-void memory_arena_destroy(MemoryArena* arena);
+SOLARIS_API void memory_arena_destroy(MemoryArena* arena);
 
 /// Allocate a block of memory in the specified arena
 /// @param arena The arena
 /// @param size The size of the requested block
 /// @return Memory address
-address memory_arena_alloc(MemoryArena* arena, usize size);
+SOLARIS_API address memory_arena_alloc(MemoryArena* arena, usize size);
 
 /// Prints the blog ids of the MemoryBlocks
 /// @param arena The arena
-void memory_arena_print_ids(MemoryArena* arena);
+SOLARIS_API void memory_arena_print_ids(MemoryArena* arena);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif// SOLARIS_UTILITY_ARENA_H

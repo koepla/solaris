@@ -24,7 +24,6 @@
 #include <examples/arena/alloc.h>
 #include <stdlib.h>
 
-
 int arena_alloc(int argc, char** argv) {
     MemoryArena arena = memory_arena_new(
             &(MemoryArenaSpecification){ .alignment = ALIGNMENT8, .reserve = malloc, .release = free });
@@ -36,8 +35,8 @@ int arena_alloc(int argc, char** argv) {
         memory_arena_alloc(&arena, 6000);
     }
 
-    // Lets request one gig like a real mad man 😎
-    memory_arena_alloc(&arena, (usize) 1 * 1024 * 1024 * 1024);
+    // Lets request 100 meg like a real mad man 😎
+    for (; memory_arena_alloc(&arena, (usize) 100 * 1024 * 1024);) { }
     memory_arena_destroy(&arena);
     return 69;
 }

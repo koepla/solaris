@@ -212,7 +212,7 @@ void date_time_add(DateTime* date, s64 amount, DateTimeUnit unit) {
 
 /// Retrieves the local DateTime
 DateTime date_time_now() {
-    time_t now = time(NULL);
+    time_t now = time(nil);
     struct tm* ltm = localtime(&now);
 
     DateTime result;
@@ -228,7 +228,7 @@ DateTime date_time_now() {
 
 /// Retrieves the corresponding UTC DateTime
 DateTime date_time_utc() {
-    time_t now = time(NULL);
+    time_t now = time(nil);
     struct tm* ltm = gmtime(&now);
 
     DateTime result;

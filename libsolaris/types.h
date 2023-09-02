@@ -24,8 +24,21 @@
 #ifndef SOLARIS_TYPES_H
 #define SOLARIS_TYPES_H
 
-#include <stddef.h>
 #include <stdint.h>
+
+#ifdef SOLARIS_SHARED
+#ifdef _WIN32
+#ifdef SOLARIS_BUILD
+#define SOLARIS_API __declspec(dllexport)
+#else
+#define SOLARIS_API __declspec(dllimport)
+#endif
+#else
+#define SOLARIS_API __attribute__((visibility("default")))
+#endif
+#else
+#define SOLARIS_API
+#endif
 
 typedef uint8_t u8;
 typedef uint16_t u16;
@@ -48,6 +61,8 @@ typedef u8* address;
 typedef u8 b8;
 #define true 1
 #define false 0
+
+#define nil ((void*) 0)
 
 #define ARRAY_SIZE_IMPL(arr) sizeof(arr) / sizeof(arr[0])
 #define ARRAY_SIZE(arr) ARRAY_SIZE_IMPL(arr)

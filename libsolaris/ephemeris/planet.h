@@ -29,6 +29,10 @@
 #include <libsolaris/math.h>
 #include <libsolaris/utility/string.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef enum PlanetName {
     PLANET_MERCURY,
     PLANET_VENUS,
@@ -61,12 +65,16 @@ typedef struct Planet {
 /// @param orbit The orbital elements of the planet
 /// @param rate The rate of change of the orbital elements in [°/century]
 /// @return A newly created planet
-Planet planet_new(PlanetName name, Elements* orbit, Elements* rate);
+SOLARIS_API Planet planet_new(PlanetName name, Elements* orbit, Elements* rate);
 
 /// Computes the equatorial position of the planet
 /// @param planet The planet
 /// @param date date and time for the computation
 /// @return the computed equatorial coordinates
-Equatorial planet_position(Planet* planet, DateTime* date);
+SOLARIS_API Equatorial planet_position(Planet* planet, DateTime* date);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif// SOLARIS_EPHEMERIS_PLANET_H

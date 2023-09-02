@@ -26,11 +26,19 @@
 
 #include <libsolaris/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /// Checks if the specified integer set contains the candidate
 /// @param numbers The number set
 /// @param count The number of numbers in the set
 /// @param candidate The candidate for the check
 /// @return b8ean that states whether the candidate is in the set
-b8 integer_set_contains(u64* numbers, usize count, u64 candidate);
+SOLARIS_API b8 integer_set_contains(u64* numbers, usize count, u64 candidate);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif// SOLARIS_UTILITY_NUMBER_SET_H

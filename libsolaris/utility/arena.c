@@ -49,7 +49,7 @@ MemoryBlock* memory_arena_block_new(MemoryArena* arena, usize requested_size) {
     block->base = (address) block + sizeof(MemoryBlock);
     block->size = actual_size;
     block->used = 0;
-    block->before = NULL;
+    block->before = nil;
     block->id = arena->blocks++;
     return block;
 }
@@ -67,15 +67,15 @@ MemoryArena memory_arena_new(MemoryArenaSpecification* spec) {
 
 /// Destroys the specified memory arena
 void memory_arena_destroy(MemoryArena* arena) {
-    while (arena->current != NULL) {
+    while (arena->current != nil) {
         MemoryBlock* before = arena->current->before;
         // We must release the memory block itself as it is the base of the allocation
         arena->release(arena->current);
         arena->current = before;
     }
-    arena->reserve = NULL;
-    arena->release = NULL;
-    arena->current = NULL;
+    arena->reserve = nil;
+    arena->release = nil;
+    arena->current = nil;
 }
 
 /// Allocate a block of memory in the specified arena
@@ -111,7 +111,7 @@ address memory_arena_alloc(MemoryArena* arena, usize size) {
 
 /// Prints the blog ids of the MemoryBlocks
 void memory_arena_print_ids(MemoryArena* arena) {
-    for (MemoryBlock* it = arena->current; it != NULL && it->before != NULL; it = it->before) {
+    for (MemoryBlock* it = arena->current; it != nil && it->before != nil; it = it->before) {
         printf("[arena]: passing block with id %llu\n", it->id);
     }
     printf("[arena]: traversed %llu blocks\n", arena->blocks);

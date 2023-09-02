@@ -38,7 +38,7 @@ b8 zero_string_equal(const char* a, const char* b);
 /// Reads a file and returns the content as a string
 /// @param arena Arena for the allocation
 /// @param name Name of the file
-/// @return Content or null String
+/// @return Content or nil String
 String file_read(MemoryArena* arena, const char* name);
 
 #endif// SOLARIS_EXAMPLES_COMMON_H

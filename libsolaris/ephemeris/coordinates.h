@@ -27,6 +27,10 @@
 #include <libsolaris/date-time.h>
 #include <libsolaris/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /// Equatorial coordinates hold spherical positional information
 typedef struct Equatorial {
     f64 right_ascension;
@@ -59,19 +63,19 @@ typedef struct Vector3 {
 /// Retrieves the length of the vector
 /// @param vector The vector
 /// @return Length
-f64 vector3_length(Vector3* vector);
+SOLARIS_API f64 vector3_length(Vector3* vector);
 
 /// Adds the two vector operands
 /// @param left The left operand
 /// @param right The right operand
 /// @return Result of addition
-Vector3 vector3_add(Vector3* left, Vector3* right);
+SOLARIS_API Vector3 vector3_add(Vector3* left, Vector3* right);
 
 /// Subtracts the two vector operands
 /// @param left The left operand
 /// @param right The right operand
 /// @return Result of subtraction
-Vector3 vector3_sub(Vector3* left, Vector3* right);
+SOLARIS_API Vector3 vector3_sub(Vector3* left, Vector3* right);
 
 /// Matrix3x3 is self-documenting ;)
 typedef struct Matrix3x3 {
@@ -81,29 +85,29 @@ typedef struct Matrix3x3 {
 /// Creates a diagonal matrix
 /// @param diagonal The diagonal value
 /// @return The matrix
-Matrix3x3 matrix3x3_diagonal(f64 diagonal);
+SOLARIS_API Matrix3x3 matrix3x3_diagonal(f64 diagonal);
 
 /// Retrieves a transposed version of the specified matrix
 /// @param matrix The source matrix
 /// @return Transposed matrix
-Matrix3x3 matrix3x3_transpose(Matrix3x3* matrix);
+SOLARIS_API Matrix3x3 matrix3x3_transpose(Matrix3x3* matrix);
 
 /// Multiplies the two operands
 /// @param left The left operand
 /// @param right The right operand
 /// @return
-Matrix3x3 matrix3x3_mul(Matrix3x3* left, Matrix3x3* right);
+SOLARIS_API Matrix3x3 matrix3x3_mul(Matrix3x3* left, Matrix3x3* right);
 
 /// Perform a chain rotation on matrices
 /// @param chain The matrix chain
 /// @param count The matrix count in the chain
-Matrix3x3 matrix3x3_mul_chain(Matrix3x3* chain, usize count);
+SOLARIS_API Matrix3x3 matrix3x3_mul_chain(Matrix3x3* chain, usize count);
 
 /// Multiplies the matrix with the vector
 /// @param left The matrix
 /// @param right The vector
 /// @param Multiplication result
-Vector3 matrix3x3_mul_vector3(Matrix3x3* left, Vector3* right);
+SOLARIS_API Vector3 matrix3x3_mul_vector3(Matrix3x3* left, Vector3* right);
 
 /// Represents an axis of rotation in 3-dimensional space
 typedef enum RotationAxis { ROTATION_AXIS_X, ROTATION_AXIS_Y, ROTATION_AXIS_Z } RotationAxis;
@@ -112,12 +116,12 @@ typedef enum RotationAxis { ROTATION_AXIS_X, ROTATION_AXIS_Y, ROTATION_AXIS_Z } 
 /// @param axis Axis to rotate around
 /// @param angle Angle
 /// @return
-Matrix3x3 matrix3x3_rotation(RotationAxis axis, f64 angle);
+SOLARIS_API Matrix3x3 matrix3x3_rotation(RotationAxis axis, f64 angle);
 
 /// Computes the ecliptic drift since J2000
 /// @param jc Julian Centuries since J2000
 /// @return ecliptic drift in math_degrees
-f64 ecliptic_drift(f64 jc);
+SOLARIS_API f64 ecliptic_drift(f64 jc);
 
 /// Represents a plane of reference in astrometry
 typedef enum ReferencePlane { REFERENCE_PLANE_EQUATORIAL, REFERENCE_PLANE_ECLIPTIC } ReferencePlane;
@@ -127,7 +131,7 @@ typedef enum ReferencePlane { REFERENCE_PLANE_EQUATORIAL, REFERENCE_PLANE_ECLIPT
 /// @param to Reference frame that we want to transform to
 /// @param at Time in julian centuries since J2000
 /// @return transformation matrix
-Matrix3x3 matrix3x3_reference_plane(ReferencePlane from, ReferencePlane to, f64 at);
+SOLARIS_API Matrix3x3 matrix3x3_reference_plane(ReferencePlane from, ReferencePlane to, f64 at);
 
 /// Creates a matrix for the precession of coordinates
 /// @param referencePlane Plane of reference
@@ -135,30 +139,34 @@ Matrix3x3 matrix3x3_reference_plane(ReferencePlane from, ReferencePlane to, f64 
 /// @param t2 Epoch to that we want to precess
 /// @note `t1` and `t2` are both in julian centuries since j2000
 /// @return transformation matrix
-Matrix3x3 matrix3x3_precession(ReferencePlane referencePlane, f64 t1, f64 t2);
+SOLARIS_API Matrix3x3 matrix3x3_precession(ReferencePlane referencePlane, f64 t1, f64 t2);
 
 /// Transform equatorial coordinates to a Vector3
 /// @param coords The equatorial coordinates
 /// @return The transformed rectangular coordinates
-Vector3 vector3_from_equatorial(Equatorial* equatorial);
+SOLARIS_API Vector3 vector3_from_equatorial(Equatorial* equatorial);
 
 /// Transform a Vector3 to equatorial coordinates
 /// @param vector The rectangular coordinates
 /// @return The transformed spherical coordinates
-Equatorial equatorial_from_vector3(Vector3* vector);
+SOLARIS_API Equatorial equatorial_from_vector3(Vector3* vector);
 
 /// Transforms Equatorial coordinates to Horizontal ones
 /// @param declination declination in math_degrees
 /// @param hour_angle Hour angle (by GMST) in degrees
 /// @param latitude latitude in math_degrees
 /// @return The transformed horizontal coordinates
-Horizontal local_equatorial_to_horizontal(f64 declination, f64 hour_angle, f64 latitude);
+SOLARIS_API Horizontal local_equatorial_to_horizontal(f64 declination, f64 hour_angle, f64 latitude);
 
 /// Computes the Horizontal position of an object with spherical coordinates
 /// @param equatorial The spherical coordinates of the object
 /// @param observer The geographic coordinates of the observer
 /// @param date The date and time for the computation
 /// @return the Computed horizontal coordinates
-Horizontal observe_geographic(Equatorial* equatorial, Geographic* observer, DateTime* date);
+SOLARIS_API Horizontal observe_geographic(Equatorial* equatorial, Geographic* observer, DateTime* date);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif// SOLARIS_EPHEMERIS_COORDINATES_H

@@ -33,8 +33,8 @@ b8 zero_string_equal(const char* a, const char* b) {
 /// Reads a file and returns the content as a string
 String file_read(MemoryArena* arena, const char* name) {
     FILE* file = fopen(name, "rb");
-    if (file == NULL) {
-        return string_null();
+    if (file == nil) {
+        return string_nil();
     }
 
     ssize file_size;

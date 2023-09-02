@@ -9,24 +9,26 @@
     {
       "name": "default",
       "hidden": true,
-      "binaryDir": "${sourceDir}/build/${presetName}"
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/${presetName}",
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build/${presetName}",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
     },
     {
       "name": "debug",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/${presetName}",
-        "CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG": "${sourceDir}/build/${presetName}"
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
       "name": "release",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/${presetName}",
-        "CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE": "${sourceDir}/build/${presetName}"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
@@ -105,6 +107,16 @@
       ]
     },
     {
+      "name": "win-64-examples",
+      "configurePreset": "win-64-debug",
+      "inherits": [
+        "default"
+      ],
+      "targets": [
+        "examples"
+      ]
+    },
+    {
       "name": "lin-64-solaris",
       "configurePreset": "lin-64-debug",
       "inherits": [
@@ -112,6 +124,16 @@
       ],
       "targets": [
         "libsolaris"
+      ]
+    },
+    {
+      "name": "lin-64-examples",
+      "configurePreset": "lin-64-debug",
+      "inherits": [
+        "default"
+      ],
+      "targets": [
+        "examples"
       ]
     }
   ]

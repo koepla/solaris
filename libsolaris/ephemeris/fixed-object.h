@@ -28,6 +28,10 @@
 #include <libsolaris/ephemeris/coordinates.h>
 #include <libsolaris/utility/string.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /// Classification of the fixed object
 /// @see https://cdsarc.cds.unistra.fr/ftp/VII/118/ReadMe
 typedef enum Classification {
@@ -174,21 +178,25 @@ typedef struct FixedObject {
 /// Computes the precessed equatorial position of the fixed object with the equinox of date
 /// @param date_time Date for computation
 /// @return precessed position
-Equatorial fixed_object_position(FixedObject* body, DateTime* date_time);
+SOLARIS_API Equatorial fixed_object_position(FixedObject* body, DateTime* date_time);
 
 /// Retrieves a string representation of the provided classification
 /// @param classification The classification
 /// @return String representation of the classification
-const char* classification_string(Classification classification);
+SOLARIS_API const char* classification_string(Classification classification);
 
 /// Retrieves a string representation of the provided catalog
 /// @param catalog The catalog
 /// @return String representation of the catalog
-const char* catalog_string(Catalog catalog);
+SOLARIS_API const char* catalog_string(Catalog catalog);
 
 /// Retrieves a string representation of the provided constellation
 /// @param constellation The constellation
 /// @return String representation of the constellation
-const char* constellation_string(Constellation constellation);
+SOLARIS_API const char* constellation_string(Constellation constellation);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif// SOLARIS_EPHEMERIS_FIXED_BODY_H

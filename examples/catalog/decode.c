@@ -25,14 +25,14 @@
 #include <examples/common.h>
 
 int catalog_decode(int argc, char** argv) {
-    const char* catalog_path = NULL;
+    const char* catalog_path = nil;
     for (int i = 0; i < argc; ++i) {
         if (zero_string_equal(argv[i], "--catalog") && i < argc) {
             catalog_path = argv[i + 1];
         }
     }
 
-    if (catalog_path == NULL) {
+    if (catalog_path == nil) {
         return -1;
     }
 
@@ -46,7 +46,6 @@ int catalog_decode(int argc, char** argv) {
     StringView model_view = string_view_from_string(&model);
     CatalogCollection catalog = catalog_collection_new(&arena);
     catalog_collection_decode(&catalog, &model_view);
-
     memory_arena_destroy(&arena);
     return 0;
 }

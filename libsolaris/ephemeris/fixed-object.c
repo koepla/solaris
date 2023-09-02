@@ -23,6 +23,7 @@
 
 #include <libsolaris/ephemeris/fixed-object.h>
 
+/// Computes the precessed equatorial position of the fixed object with the equinox of date
 Equatorial fixed_object_position(FixedObject* body, DateTime* date_time) {
     f64 epoch = date_time_jc(date_time, false);
     Matrix3x3 precession = matrix3x3_precession(REFERENCE_PLANE_EQUATORIAL, -0.000012775, epoch);

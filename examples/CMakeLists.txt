@@ -10,5 +10,3 @@ file(GLOB SOLARIS_EXAMPLES_SOURCE_LIST
 add_executable(examples ${SOLARIS_EXAMPLES_SOURCE_LIST})
 target_link_libraries(examples PUBLIC "libsolaris")
 target_include_directories(examples PUBLIC ${CMAKE_SOURCE_DIR})
-
-
