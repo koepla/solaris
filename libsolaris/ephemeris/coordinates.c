@@ -31,20 +31,12 @@ f64 vector3_length(Vector3* vector) {
 
 /// Adds the two vector operands
 Vector3 vector3_add(Vector3* left, Vector3* right) {
-    Vector3 result;
-    result.x = left->x + right->x;
-    result.y = left->y + right->y;
-    result.z = left->z + right->z;
-    return result;
+    return (Vector3){ .x = left->x + right->x, .y = left->y + right->y, .z = left->z + right->z };
 }
 
 /// Subtracts the two vector operands
 Vector3 vector3_sub(Vector3* left, Vector3* right) {
-    Vector3 result;
-    result.x = left->x - right->x;
-    result.y = left->y - right->y;
-    result.z = left->z - right->z;
-    return result;
+    return (Vector3){ .x = left->x - right->x, .y = left->y - right->y, .z = left->z - right->z };
 }
 
 /// Creates a diagonal matrix
@@ -112,40 +104,19 @@ Matrix3x3 matrix3x3_rotation(RotationAxis axis, f64 angle) {
     f64 sin_angle = math_sine(angle);
     switch (axis) {
         case ROTATION_AXIS_X: {
-            // clang-format off
-            Matrix3x3 result = {
-                .elements = {
-                    { 1.0, 0.0, 0.0 },
-                    { 0.0, cos_angle, -sin_angle },
-                    { 0.0, sin_angle, cos_angle }
-                }
+            return (Matrix3x3){
+                .elements = { { 1.0, 0.0, 0.0 }, { 0.0, cos_angle, -sin_angle }, { 0.0, sin_angle, cos_angle } }
             };
-            // clang-format on
-            return result;
         }
         case ROTATION_AXIS_Y: {
-            // clang-format off
-            Matrix3x3 result = {
-                .elements = {
-                    { cos_angle, 0.0, sin_angle },
-                    { 0.0, 1.0, 0.0 },
-                    { -sin_angle, 0.0, cos_angle }
-                }
+            return (Matrix3x3){
+                .elements = { { cos_angle, 0.0, sin_angle }, { 0.0, 1.0, 0.0 }, { -sin_angle, 0.0, cos_angle } }
             };
-            // clang-format on
-            return result;
         }
         case ROTATION_AXIS_Z: {
-            // clang-format off
-            Matrix3x3 result = {
-                .elements = {
-                    { cos_angle, -sin_angle, 0.0 },
-                    { sin_angle, cos_angle, 0.0 },
-                    { 0.0, 0.0, 1.0 }
-                }
+            return (Matrix3x3){
+                .elements = { { cos_angle, -sin_angle, 0.0 }, { sin_angle, cos_angle, 0.0 }, { 0.0, 0.0, 1.0 } }
             };
-            // clang-format on
-            return result;
         }
     }
     return matrix3x3_diagonal(1.0);

@@ -50,13 +50,13 @@ typedef struct Elements {
     f64 eccentricity;
     f64 inclination;
     f64 mean_longitude;
-    f64 longitude_perihelion;
-    f64 longitude_ascending_node;
+    f64 lon_perihelion;
+    f64 lon_asc_node;
 } Elements;
 
 typedef struct Planet {
     PlanetName name;
-    Elements orbit;
+    Elements state;
     Elements rate;
 } Planet;
 

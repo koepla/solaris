@@ -23,7 +23,7 @@
 
 #include <libsolaris/ephemeris/planet.h>
 
-/// Computes the eccentric anomaly using an iterative approach of keplers equation
+/// Computes the eccentric anomaly using an iterative approach of kepler's equation
 f64 eccentric_anomaly(f64 mean_anomaly, f64 eccentricity) {
     f64 eccentricity_degrees = math_degrees(eccentricity);
     f64 result = mean_anomaly + eccentricity_degrees * math_sine(mean_anomaly);
@@ -46,12 +46,12 @@ Vector3 position_of_earth(f64 julian_centuries) {
     elements.semi_major_axis = 1.00000261 + 0.00000562 * julian_centuries;
     elements.eccentricity = 0.01671022 - 0.00003804 * julian_centuries;
     elements.mean_longitude = 100.46457166 + 35999.37244981 * julian_centuries;
-    elements.longitude_perihelion = 102.93768193 + 0.32327364 * julian_centuries;
+    elements.lon_perihelion = 102.93768193 + 0.32327364 * julian_centuries;
 
     f64 a = elements.semi_major_axis;
     f64 e = elements.eccentricity;
     f64 L = elements.mean_longitude;
-    f64 w = elements.longitude_perihelion;
+    f64 w = elements.lon_perihelion;
 
     f64 mean_anomaly = math_modulo(L - w, 360.0);
     f64 ecc_anomaly = eccentric_anomaly(mean_anomaly, e);
@@ -70,18 +70,18 @@ Equatorial planet_position(Planet* planet, DateTime* date) {
     f64 t = date_time_jc(date, false);
 
     Elements elements;
-    elements.semi_major_axis = planet->orbit.semi_major_axis + planet->rate.semi_major_axis * t;
-    elements.eccentricity = planet->orbit.eccentricity + planet->rate.eccentricity * t;
-    elements.inclination = planet->orbit.inclination + planet->rate.inclination * t;
-    elements.mean_longitude = planet->orbit.mean_longitude + planet->rate.mean_longitude * t;
-    elements.longitude_perihelion = planet->orbit.longitude_perihelion + planet->rate.longitude_perihelion * t;
-    elements.longitude_ascending_node =
-            planet->orbit.longitude_ascending_node + planet->rate.longitude_ascending_node * t;
+    elements.semi_major_axis = planet->state.semi_major_axis + planet->rate.semi_major_axis * t;
+    elements.eccentricity = planet->state.eccentricity + planet->rate.eccentricity * t;
+    elements.inclination = planet->state.inclination + planet->rate.inclination * t;
+    elements.mean_longitude = planet->state.mean_longitude + planet->rate.mean_longitude * t;
+    elements.lon_perihelion = planet->state.lon_perihelion + planet->rate.lon_perihelion * t;
+    elements.lon_asc_node =
+            planet->state.lon_asc_node + planet->rate.lon_asc_node * t;
 
     f64 a = elements.semi_major_axis;
     f64 e = elements.eccentricity;
-    f64 w = elements.longitude_perihelion;
-    f64 Om = elements.longitude_ascending_node;
+    f64 w = elements.lon_perihelion;
+    f64 Om = elements.lon_asc_node;
     f64 L = elements.mean_longitude;
     f64 I = elements.inclination;
 

@@ -143,6 +143,8 @@ const char* constellation_string(Constellation constellation) {
             return "Auriga";
         case CONSTELLATION_LEPUS:
             return "Lepus";
+        case CONSTELLATION_LUPUS:
+            return "Lupus";
         case CONSTELLATION_COLUMBA:
             return "Columba";
         case CONSTELLATION_GEMINI:
