@@ -8,19 +8,20 @@ Fast celestial body computation library
 
 - Plain C implementation without any dependencies
 - Cross-platform
-- Arena allocation for optimal cache use
+- Builtin planets and celestial objects
+- Zero runtime allocations except for dynamic calculations
 
 ## Implementation details
 
-- The format of the models must adhere to [this documentation](https://cdsarc.cds.unistra.fr/ftp/VII/118/ReadMe)
 - Calculations are based on the book "Astronomie mit dem Personal Computer"
 - In some rather unimportant cases, readability is preferred over performance
 
 ## Progress
 
+- [x] Basic model
 - [x] Transforms
-- [ ] Model loading
-- [ ] Variable backend (precompiled or dynamic)
-- [ ] Rise time calculation
-- [ ] Special Events (Alignment of planets, ...)
+- [x] Builtin planets
+- [ ] Builtin celestial objects
+- [ ] Spatial acceleration ([quadtree](https://youtu.be/ASAowY6yJII?si=GR5N4C_AqIgDLHQc))
+- [ ] Special Events (alignment of planets, ...)
 - [ ] Plate solving

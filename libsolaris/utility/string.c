@@ -24,24 +24,9 @@
 #include <assert.h>
 #include <libsolaris/utility/string.h>
 
-/// Creates a nil String
-String string_nil() {
-    String result = { .base = nil, .length = 0 };
-    return result;
-}
-
-/// Creates a new string instance
-String string_new(MemoryArena* arena, ssize length) {
-    String result;
-    result.base = (char*) memory_arena_alloc(arena, length);
-    result.length = length;
-    return result;
-}
-
 /// Creates a nil StringView
 StringView string_view_nil() {
-    StringView result = { .data = nil, .length = 0 };
-    return result;
+    return (StringView) { .data = nil, .length = 0 };;
 }
 
 /// Creates a new StringView instance
@@ -64,15 +49,8 @@ ssize zero_string_length(const char* str) {
 }
 
 /// Creates a new StringView instance from a zero terminated C string
-StringView string_view_new_zero(const char* str) {
-    StringView result = { .data = str, .length = zero_string_length(str) };
-    return result;
-}
-
-/// Creates a new StringView instance from a String
-StringView string_view_from_string(String* string) {
-    StringView result = { .data = string->base, .length = string->length };
-    return result;
+StringView string_view_from_native(const char* str) {
+    return (StringView) { .data = str, .length = zero_string_length(str) };
 }
 
 /// Checks whether the provided StringViews are equal in terms of

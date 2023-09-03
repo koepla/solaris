@@ -103,17 +103,7 @@
         "default"
       ],
       "targets": [
-        "libsolaris"
-      ]
-    },
-    {
-      "name": "win-64-examples",
-      "configurePreset": "win-64-debug",
-      "inherits": [
-        "default"
-      ],
-      "targets": [
-        "examples"
+        "solaris"
       ]
     },
     {
@@ -123,17 +113,7 @@
         "default"
       ],
       "targets": [
-        "libsolaris"
-      ]
-    },
-    {
-      "name": "lin-64-examples",
-      "configurePreset": "lin-64-debug",
-      "inherits": [
-        "default"
-      ],
-      "targets": [
-        "examples"
+        "solaris"
       ]
     }
   ]

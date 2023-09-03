@@ -22,69 +22,15 @@
 // SOFTWARE.
 
 #include <libsolaris/ephemeris/catalog.h>
+#include <libsolaris/ephemeris/generated/objects.h>
+#include <libsolaris/ephemeris/generated/planets.h>
 
-/// Create a new catalog collection
-CatalogCollection catalog_collection_new(MemoryArena* arena) {
-    CatalogCollection result = { .arena = arena, .objects = nil, .planets = nil };
-    return result;
-}
-
-/// Internal Line iterator structure
-typedef struct LineIterator {
-    StringView source;
-    ssize offset;
-} LineIterator;
-
-/// Creates a new line iterator from a source string
-LineIterator line_iterator_make(StringView* source) {
-    LineIterator result = { .source = *source, .offset = 0 };
-    return result;
-}
-
-/// Counts the number of total new lines
-ssize line_iterator_count(LineIterator* it) {
-    ssize count = 1;
-    for (ssize i = 0; i < it->source.length; ++i) {
-        if (it->source.data[i] == '\n') {
-            count++;
-        }
-    }
-    return count;
-}
-
-/// Retrieves the remaining part of the line iterator source
-StringView line_iterator_remaining(LineIterator* it) {
-    return string_view_substring(&it->source, it->offset, it->source.length - it->offset);
-}
-
-/// Retrieves the next line
-b8 line_iterator_next(LineIterator* it, StringView* next) {
-    StringView hay = line_iterator_remaining(it);
-    ssize new_line_index = string_view_index_of(&hay, '\n');
-    if (new_line_index == -1) {
-        return false;
-    }
-    next->data = hay.data;
-    next->length = new_line_index;
-    it->offset += new_line_index + 1;
-    return true;
-}
-
-/// Decode a model line of the NGC format
-void catalog_collection_decode_line(FixedObject* object, StringView* line) { }
-
-/// Decode a model file of the NGC format
-void catalog_collection_decode(CatalogCollection* catalog, StringView* model) {
-    LineIterator iterator = line_iterator_make(model);
-
-    // We precount the number of expected objects in order to make on big allocation.
-    // This allows us to store the elements in a random-accessible contignous array,
-    // instead of something like a linked list.
-    // Maybe we will organize the objects in a btree of some sort (maybe per catalog,
-    // per index) in the future, for now we will stick with that simple approach.
-    usize count = line_iterator_count(&iterator);
-    catalog->objects = (FixedObject*) memory_arena_alloc(catalog->arena, count * sizeof(FixedObject));
-    for (StringView line = { 0 }; line_iterator_next(&iterator, &line);) { }
+/// Acquire the builtin catalog
+Catalog catalog_acquire(void) {
+    return (Catalog){ .planets = generated_planets,
+                      .objects = generated_objects,
+                      .planet_count = ARRAY_SIZE(generated_planets),
+                      .object_count = ARRAY_SIZE(generated_objects) };
 }
 
 /// Compute the geographic position of the specified planet according

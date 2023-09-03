@@ -24,10 +24,6 @@
 #ifndef SOLARIS_H
 #define SOLARIS_H
 
-#ifdef __cplusplus
-namespace solaris {
-#endif
-
 #include <libsolaris/date-time.h>
 #include <libsolaris/ephemeris/catalog.h>
 #include <libsolaris/ephemeris/coordinates.h>
@@ -38,9 +34,5 @@ namespace solaris {
 #include <libsolaris/utility/arena.h>
 #include <libsolaris/utility/number-set.h>
 #include <libsolaris/utility/string.h>
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif// SOLARIS_H

@@ -58,7 +58,7 @@ typedef enum Classification {
 /// @note Because solaris makes heave use of ngc.dat
 ///       files, the main catalogs are NGC and IC.
 /// @see https://cdsarc.cds.unistra.fr/ftp/VII/118/ReadMe
-typedef enum Catalog { CATALOG_NGC, CATALOG_IC, CATALOG_MESSIER } Catalog;
+typedef enum CatalogName { CATALOG_NGC, CATALOG_IC, CATALOG_MESSIER } CatalogName;
 
 /// Designation of the fixed object
 /// @note Designation consists of catalog and the index in
@@ -67,7 +67,7 @@ typedef enum Catalog { CATALOG_NGC, CATALOG_IC, CATALOG_MESSIER } Catalog;
 ///       of 107.
 /// @see https://cdsarc.cds.unistra.fr/ftp/VII/118/ReadMe
 typedef struct Designation {
-    Catalog catalog;
+    CatalogName catalog;
     usize index;
 } Designation;
 
@@ -188,7 +188,7 @@ SOLARIS_API const char* classification_string(Classification classification);
 /// Retrieves a string representation of the provided catalog
 /// @param catalog The catalog
 /// @return String representation of the catalog
-SOLARIS_API const char* catalog_string(Catalog catalog);
+SOLARIS_API const char* catalog_string(CatalogName catalog);
 
 /// Retrieves a string representation of the provided constellation
 /// @param constellation The constellation

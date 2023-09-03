@@ -30,24 +30,6 @@
 extern "C" {
 #endif
 
-typedef struct String {
-    char* base;
-    ssize length;
-} String;
-
-/// Creates a nil String
-SOLARIS_API String string_nil();
-
-/// Creates a new String instance
-/// @param arena The arena for the allocation
-/// @param length The length of the string
-/// @return String instance
-///
-/// @note Strings are heap allocated, which is the reason
-///       why an arena is necessary. For views to constant
-///       strings see StringView
-SOLARIS_API String string_new(MemoryArena* arena, ssize length);
-
 typedef struct StringView {
     const char* data;
     ssize length;
@@ -65,12 +47,7 @@ SOLARIS_API StringView string_view_new(const char* str, ssize length);
 /// Creates a new StringView instance from a zero terminated C string
 /// @param str The string
 /// @return StringView instance
-SOLARIS_API StringView string_view_new_zero(const char* str);
-
-/// Creates a new StringView instance from a String
-/// @param string The string
-/// @return StringView instance
-SOLARIS_API StringView string_view_from_string(String* string);
+SOLARIS_API StringView string_view_from_native(const char* str);
 
 /// Checks whether the provided StringViews are equal in terms of
 /// length and data

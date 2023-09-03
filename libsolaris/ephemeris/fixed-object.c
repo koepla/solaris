@@ -73,7 +73,7 @@ const char* classification_string(Classification classification) {
 }
 
 /// Retrieves a string representation of the provided catalog
-const char* catalog_string(Catalog catalog) {
+const char* catalog_string(CatalogName catalog) {
     switch (catalog) {
         case CATALOG_NGC:
             return "New General Catalog";

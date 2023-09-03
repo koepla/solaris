@@ -21,24 +21,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SOLARIS_EXAMPLES_COMMON_H
-#define SOLARIS_EXAMPLES_COMMON_H
+#ifndef SOLARIS_EPHEMERIS_GENERATED_OBJECTS_H
+#define SOLARIS_EPHEMERIS_GENERATED_OBJECTS_H
 
-#include <libsolaris/utility/string.h>
+#include <libsolaris/ephemeris/fixed-object.h>
 
-#include <stdio.h>
-#include <stdlib.h>
+static FixedObject generated_objects[] = {
+    // TODO: fill with generator
+};
 
-/// Checks if the two zero terminated strings are equal
-/// @param a First string
-/// @param b Second string
-/// @return Boolean that indicates equality
-b8 zero_string_equal(const char* a, const char* b);
-
-/// Reads a file and returns the content as a string
-/// @param arena Arena for the allocation
-/// @param name Name of the file
-/// @return Content or nil String
-String file_read(MemoryArena* arena, const char* name);
-
-#endif// SOLARIS_EXAMPLES_COMMON_H
+#elif
+#error "Generated objects should only be included once, they are for internal use only!"
+#endif// SOLARIS_EPHEMERIS_GENERATED_OBJECTS_H

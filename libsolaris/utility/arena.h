@@ -74,7 +74,7 @@ SOLARIS_API address memory_arena_alloc(MemoryArena* arena, usize size);
 
 /// Prints the blog ids of the MemoryBlocks
 /// @param arena The arena
-SOLARIS_API void memory_arena_print_ids(MemoryArena* arena);
+void memory_arena_print_ids(MemoryArena* arena);
 
 #ifdef __cplusplus
 }

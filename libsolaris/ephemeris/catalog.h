@@ -33,33 +33,16 @@
 extern "C" {
 #endif
 
-typedef struct CatalogCollection {
-    MemoryArena* arena;
+typedef struct Catalog {
     Planet* planets;
     FixedObject* objects;
-} CatalogCollection;
+    usize planet_count;
+    usize object_count;
+} Catalog;
 
-/// Create a new catalog collection
-/// @param arena The arena where the objects in the catalog get stored
-/// @return An empty catalog collection
-///
-/// @note The catalog takes sort of ownership of the provided arena,
-///       in a sense that it is used for storing the objects. It is not
-///       upon the catalog to free the arena, this task is up to the
-///       user of the catalog, who provides the arena. The catalog
-///       objects die together with the arena, as this is the
-///       place where they reside in memory
-SOLARIS_API CatalogCollection catalog_collection_new(MemoryArena* arena);
-
-/// Decode a model file of the NGC format
-/// @param catalog The catalog which stores the decoded entries
-/// @param model The model file
-///
-/// @note The model must adhere to the NGC format, which is described on the
-///       following web page: https://cdsarc.cds.unistra.fr/ftp/VII/118/ReadMe.
-///       Any other models are currently unsupported, it is up to the user
-///       to manually load other models.
-SOLARIS_API void catalog_collection_decode(CatalogCollection* catalog, StringView* model);
+/// Acquire the builtin catalog
+/// @return The builtin catalog
+SOLARIS_API Catalog catalog_acquire(void);
 
 typedef struct ComputeResult {
     f64* altitudes;
