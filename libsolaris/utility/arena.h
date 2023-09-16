@@ -33,7 +33,7 @@ extern "C" {
 typedef void* (*MemoryReserveFunc)(size_t);
 typedef void (*MemoryReleaseFunc)(void*);
 
-typedef enum MemoryAlignment { ALIGNMENT4 = 4, ALIGNMENT8 = 8 } MemoryAlignment;
+typedef enum MemoryAlignment { ALIGNMENT1 = 1, ALIGNMENT4 = 4, ALIGNMENT8 = 8 } MemoryAlignment;
 
 typedef struct MemoryArenaSpecification {
     MemoryAlignment alignment;
@@ -60,7 +60,16 @@ typedef struct MemoryArena {
 /// Creates a new memory arena
 /// @param arena The arena
 /// @param spec The arena specification
+/// @return Memory arena with one block
 SOLARIS_API MemoryArena memory_arena_new(MemoryArenaSpecification* spec);
+
+/// Creates an identity memory arena
+/// @param alignment The alignment for the allocations
+/// @return Identity memory arena with one block
+///
+/// @note An identity arena is an arena with malloc and free
+///       as reserve/release functions
+SOLARIS_API MemoryArena memory_arena_identity(MemoryAlignment alignment);
 
 /// Destroys the specified memory arena
 /// @param arena The arena
@@ -71,10 +80,6 @@ SOLARIS_API void memory_arena_destroy(MemoryArena* arena);
 /// @param size The size of the requested block
 /// @return Memory address
 SOLARIS_API address memory_arena_alloc(MemoryArena* arena, usize size);
-
-/// Prints the blog ids of the MemoryBlocks
-/// @param arena The arena
-void memory_arena_print_ids(MemoryArena* arena);
 
 #ifdef __cplusplus
 }

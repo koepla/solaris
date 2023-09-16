@@ -22,7 +22,7 @@
 // SOFTWARE.
 
 #include <libsolaris/utility/arena.h>
-#include <stdio.h>
+#include <stdlib.h>
 
 /// Align the specified size according to arena alignment
 usize memory_arena_alignment_size(MemoryArena* arena, usize size) {
@@ -63,6 +63,15 @@ MemoryArena memory_arena_new(MemoryArenaSpecification* spec) {
     result.blocks = 0;
     result.current = memory_arena_block_new(&result, 0);
     return result;
+}
+
+/// Creates an identity memory arena
+MemoryArena memory_arena_identity(MemoryAlignment alignment) {
+    MemoryArenaSpecification spec;
+    spec.alignment = alignment;
+    spec.reserve = malloc;
+    spec.release = free;
+    return memory_arena_new(&spec);
 }
 
 /// Destroys the specified memory arena
@@ -107,12 +116,4 @@ address memory_arena_alloc(MemoryArena* arena, usize size) {
     }
 
     return result;
-}
-
-/// Prints the blog ids of the MemoryBlocks
-void memory_arena_print_ids(MemoryArena* arena) {
-    for (MemoryBlock* it = arena->current; it != nil && it->before != nil; it = it->before) {
-        printf("[arena]: passing block with id %llu\n", it->id);
-    }
-    printf("[arena]: traversed %llu blocks\n", arena->blocks);
 }
