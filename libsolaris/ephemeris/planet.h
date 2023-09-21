@@ -67,11 +67,17 @@ typedef struct Planet {
 /// @return A newly created planet
 SOLARIS_API Planet planet_new(PlanetName name, Elements* orbit, Elements* rate);
 
+/// Computes the orbital position of the planet
+/// @param planet The planet
+/// @param date date and time for the computation
+/// @return the computed orbital coordinates
+SOLARIS_API Elements planet_position_orbital(Planet* planet, DateTime* date);
+
 /// Computes the equatorial position of the planet
 /// @param planet The planet
 /// @param date date and time for the computation
 /// @return the computed equatorial coordinates
-SOLARIS_API Equatorial planet_position(Planet* planet, DateTime* date);
+SOLARIS_API Equatorial planet_position_equatorial(Planet* planet, DateTime* date);
 
 /// Retrieves the name of the planet in string representation
 /// @param name The name of the planet

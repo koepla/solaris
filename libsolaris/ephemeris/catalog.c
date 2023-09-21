@@ -47,7 +47,7 @@ void compute_geographic_planet(MemoryArena* arena, ComputeResult* result, Planet
         result->capacity = spec->steps;
     }
     for (usize step = 0; step < spec->steps; ++step) {
-        Equatorial position_planet = planet_position(planet, &spec->date);
+        Equatorial position_planet = planet_position_equatorial(planet, &spec->date);
         Horizontal position = observe_geographic(&position_planet, &spec->observer, &spec->date);
         result->altitudes[step] = position.altitude;
         result->azimuths[step] = position.azimuth;

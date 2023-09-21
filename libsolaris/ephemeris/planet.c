@@ -23,6 +23,21 @@
 
 #include <libsolaris/ephemeris/planet.h>
 
+/// Computes the orbital position of the planet
+Elements planet_position_orbital(Planet* planet, DateTime* date) {
+    f64 t = date_time_jc(date, false);
+
+    Elements elements;
+    elements.semi_major_axis = planet->state.semi_major_axis + planet->rate.semi_major_axis * t;
+    elements.eccentricity = planet->state.eccentricity + planet->rate.eccentricity * t;
+    elements.inclination = planet->state.inclination + planet->rate.inclination * t;
+    elements.mean_longitude = planet->state.mean_longitude + planet->rate.mean_longitude * t;
+    elements.lon_perihelion = planet->state.lon_perihelion + planet->rate.lon_perihelion * t;
+    elements.lon_asc_node =
+            planet->state.lon_asc_node + planet->rate.lon_asc_node * t;
+    return elements;
+}
+
 /// Computes the eccentric anomaly using an iterative approach of kepler's equation
 f64 eccentric_anomaly(f64 mean_anomaly, f64 eccentricity) {
     f64 eccentricity_degrees = math_degrees(eccentricity);
@@ -66,18 +81,8 @@ Vector3 position_of_earth(f64 julian_centuries) {
 }
 
 /// Computes the equatorial position of the planet
-Equatorial planet_position(Planet* planet, DateTime* date) {
-    f64 t = date_time_jc(date, false);
-
-    Elements elements;
-    elements.semi_major_axis = planet->state.semi_major_axis + planet->rate.semi_major_axis * t;
-    elements.eccentricity = planet->state.eccentricity + planet->rate.eccentricity * t;
-    elements.inclination = planet->state.inclination + planet->rate.inclination * t;
-    elements.mean_longitude = planet->state.mean_longitude + planet->rate.mean_longitude * t;
-    elements.lon_perihelion = planet->state.lon_perihelion + planet->rate.lon_perihelion * t;
-    elements.lon_asc_node =
-            planet->state.lon_asc_node + planet->rate.lon_asc_node * t;
-
+Equatorial planet_position_equatorial(Planet* planet, DateTime* date) {
+    Elements elements = planet_position_orbital(planet, date);
     f64 a = elements.semi_major_axis;
     f64 e = elements.eccentricity;
     f64 w = elements.lon_perihelion;
@@ -108,6 +113,7 @@ Equatorial planet_position(Planet* planet, DateTime* date) {
     Matrix3x3 helio_ecliptic_transform = matrix3x3_mul_chain(chain, ARRAY_SIZE(chain));
     Vector3 helio_ecliptic = matrix3x3_mul_vector3(&helio_ecliptic_transform, &in_orbit);
 
+    f64 t = date_time_jc(date, false);
     Vector3 earth = position_of_earth(t);
     Vector3 geo_ecliptic = vector3_sub(&helio_ecliptic, &earth);
 
