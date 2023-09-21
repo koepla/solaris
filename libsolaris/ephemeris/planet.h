@@ -73,6 +73,11 @@ SOLARIS_API Planet planet_new(PlanetName name, Elements* orbit, Elements* rate);
 /// @return the computed equatorial coordinates
 SOLARIS_API Equatorial planet_position(Planet* planet, DateTime* date);
 
+/// Retrieves the name of the planet in string representation
+/// @param name The name of the planet
+/// @return The name in string representation
+SOLARIS_API const char* planet_name_to_string(PlanetName name);
+
 #ifdef __cplusplus
 }
 #endif

@@ -119,3 +119,27 @@ Equatorial planet_position(Planet* planet, DateTime* date) {
     Vector3 geo_equatorial_precessed = matrix3x3_mul_vector3(&precession_transform, &geo_equatorial);
     return equatorial_from_vector3(&geo_equatorial_precessed);
 }
+
+/// Retrieves the name of the planet in string representation
+const char* planet_name_to_string(PlanetName name) {
+    switch (name) {
+        case PLANET_MERCURY:
+            return "Mercury";
+        case PLANET_VENUS:
+            return "Venus";
+        case PLANET_EARTH:
+            return "Earth";
+        case PLANET_MARS:
+            return "Mars";
+        case PLANET_JUPITER:
+            return "Jupiter";
+        case PLANET_SATURN:
+            return "Saturn";
+        case PLANET_URANUS:
+            return "Uranus";
+        case PLANET_NEPTUNE:
+            return "Neptune";
+        case PLANET_COUNT:
+            return "Invalid";
+    }
+}
