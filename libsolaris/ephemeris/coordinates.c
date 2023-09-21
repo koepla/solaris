@@ -43,7 +43,13 @@ Vector3 vector3_sub(Vector3* left, Vector3* right) {
 Matrix3x3 matrix3x3_diagonal(f64 diagonal) {
     Matrix3x3 result;
     result.elements[0][0] = diagonal;
+    result.elements[0][1] = 0.0f;
+    result.elements[0][2] = 0.0f;
+    result.elements[1][0] = 0.0f;
     result.elements[1][1] = diagonal;
+    result.elements[1][2] = 0.0f;
+    result.elements[2][0] = 0.0f;
+    result.elements[2][1] = 0.0f;
     result.elements[2][2] = diagonal;
     return result;
 }
