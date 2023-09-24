@@ -76,13 +76,13 @@ const char* classification_string(Classification classification) {
 const char* catalog_string(CatalogName catalog) {
     switch (catalog) {
         case CATALOG_NGC:
-            return "New General Catalog";
+            return "NGC";
         case CATALOG_IC:
-            return "Index Catalog";
+            return "IC";
         case CATALOG_MESSIER:
-            return "Messier Catalog";
+            return "M";
         default:
-            return "unknown";
+            return "?";
     }
 }
 
