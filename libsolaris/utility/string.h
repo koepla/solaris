@@ -56,6 +56,12 @@ SOLARIS_API StringView string_view_from_native(const char* str);
 /// @return Boolean that indicates equality
 SOLARIS_API b8 string_view_equal(StringView* left, StringView* right);
 
+/// Checks whether the provided hay StringView contains the needle, without case sensitivity
+/// @param hay The hay which is searched for the needle
+/// @param needle The needle which is searched in the hay
+/// @return Boolean that indicates whether the hay contains the needle
+SOLARIS_API b8 string_view_contains(StringView* hay, StringView* needle);
+
 /// Creates a substring
 /// @param view The view that contains the substring
 /// @param offset The offset where the substring should start

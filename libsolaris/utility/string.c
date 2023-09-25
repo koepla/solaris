@@ -22,11 +22,12 @@
 // SOFTWARE.
 
 #include <assert.h>
+#include <ctype.h>
 #include <libsolaris/utility/string.h>
 
 /// Creates a nil StringView
 StringView string_view_nil() {
-    return (StringView) { .data = nil, .length = 0 };;
+    return (StringView){ .data = nil, .length = 0 };
 }
 
 /// Creates a new StringView instance
@@ -50,7 +51,7 @@ ssize zero_string_length(const char* str) {
 
 /// Creates a new StringView instance from a zero terminated C string
 StringView string_view_from_native(const char* str) {
-    return (StringView) { .data = str, .length = zero_string_length(str) };
+    return (StringView){ .data = str, .length = zero_string_length(str) };
 }
 
 /// Checks whether the provided StringViews are equal in terms of
@@ -83,4 +84,24 @@ ssize string_view_index_of(StringView* view, char symbol) {
         }
     }
     return -1;
+}
+
+/// Checks whether the provided hay StringView contains the needle, without case sensitivity
+b8 string_view_contains(StringView* hay, StringView* needle) {
+    for (ssize hay_index = 0; hay_index < hay->length; ++hay_index) {
+        b8 contains = true;
+        if (hay->length - hay_index < needle->length) {
+            return false;
+        }
+        for (ssize needle_index = 0; needle_index < needle->length; ++needle_index) {
+            if (tolower(needle->data[needle_index]) != tolower(hay->data[hay_index + needle_index])) {
+                contains = false;
+                break;
+            }
+        }
+        if (contains) {
+            return true;
+        }
+    }
+    return false;
 }
