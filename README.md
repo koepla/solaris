@@ -22,6 +22,6 @@ Fast celestial body computation library
 - [x] Transforms
 - [x] Builtin planets
 - [x] Builtin celestial objects
-- [ ] Spatial acceleration ([quadtree](https://youtu.be/ASAowY6yJII?si=GR5N4C_AqIgDLHQc))
+- [x] Spatial acceleration (quadtree)
 - [ ] Special Events (alignment of planets, ...)
 - [ ] Plate solving

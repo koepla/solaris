@@ -21,12 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SOLARIS_EPHEMERIS_FIXED_BODY_H
-#define SOLARIS_EPHEMERIS_FIXED_BODY_H
+#ifndef SOLARIS_OBJECT_H
+#define SOLARIS_OBJECT_H
 
-#include <libsolaris/date-time.h>
-#include <libsolaris/ephemeris/coordinates.h>
-#include <libsolaris/utility/string.h>
+#include <solaris/linear.h>
+#include <solaris/string.h>
+#include <solaris/time.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -167,19 +167,19 @@ typedef enum Constellation {
     CONSTELLATION_COUNT
 } Constellation;
 
-typedef struct FixedObject {
+typedef struct Object {
     Designation designation;
     Constellation constellation;
     Classification classification;
     Equatorial position;
     f64 dimension;
     f64 magnitude;
-} FixedObject;
+} Object;
 
 /// Computes the precessed equatorial position of the fixed object with the equinox of date
 /// @param date_time Date for computation
 /// @return precessed position
-SOLARIS_API Equatorial fixed_object_position(FixedObject* body, DateTime* date_time);
+SOLARIS_API Equatorial object_position(Object* body, Time* date_time);
 
 /// Retrieves a string representation of the provided classification
 /// @param classification The classification
@@ -200,4 +200,4 @@ SOLARIS_API const char* constellation_string(Constellation constellation);
 }
 #endif
 
-#endif// SOLARIS_EPHEMERIS_FIXED_BODY_H
+#endif// SOLARIS_OBJECT_H

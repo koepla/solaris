@@ -21,11 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <libsolaris/ephemeris/fixed-object.h>
+#include <solaris/object.h>
 
 /// Computes the precessed equatorial position of the fixed object with the equinox of date
-Equatorial fixed_object_position(FixedObject* body, DateTime* date_time) {
-    f64 epoch = date_time_jc(date_time, false);
+Equatorial object_position(Object* body, Time* date_time) {
+    f64 epoch = time_jc(date_time, false);
     Matrix3x3 precession = matrix3x3_precession(REFERENCE_PLANE_EQUATORIAL, -0.000012775, epoch);
     Vector3 position = vector3_from_equatorial(&body->position);
     Vector3 precessed = matrix3x3_mul_vector3(&precession, &position);

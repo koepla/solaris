@@ -14,7 +14,8 @@
       "cacheVariables": {
         "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/${presetName}",
         "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build/${presetName}",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "BUILD_DIRECTORY": "${sourceDir}/build/${presetName}"
       }
     },
     {
@@ -58,7 +59,7 @@
         "rhs": "Linux"
       },
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc"
+        "CMAKE_C_COMPILER": "clang"
       }
     },
     {
@@ -97,23 +98,23 @@
       "jobs": 16
     },
     {
-      "name": "win-64-solaris",
+      "name": "win-64-driver",
       "configurePreset": "win-64-debug",
       "inherits": [
         "default"
       ],
       "targets": [
-        "solaris"
+        "solaris-driver"
       ]
     },
     {
-      "name": "lin-64-solaris",
+      "name": "lin-64-driver",
       "configurePreset": "lin-64-debug",
       "inherits": [
         "default"
       ],
       "targets": [
-        "solaris"
+        "solaris-driver"
       ]
     }
   ]

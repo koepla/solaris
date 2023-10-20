@@ -21,8 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <libsolaris/math.h>
 #include <math.h>
+
+#include <solaris/math.h>
 
 /// Retrieves the absolute value
 f64 math_abs(f64 x) {
@@ -57,6 +58,12 @@ f64 math_fraction(f64 x) {
 /// Performs modulo operation on the numbers
 f64 math_modulo(f64 a, f64 b) {
     return b * math_fraction(a / b);
+}
+
+/// Alter x so that it stays in the interval [low;high]
+f64 math_bound(f64 x, f64 low, f64 high) {
+    x -= low;
+    return math_modulo(x, high - low) + low;
 }
 
 /// Retrieves the sine value of the specified angle

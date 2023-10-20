@@ -24,15 +24,15 @@
 #ifndef SOLARIS_H
 #define SOLARIS_H
 
-#include <libsolaris/date-time.h>
-#include <libsolaris/ephemeris/catalog.h>
-#include <libsolaris/ephemeris/coordinates.h>
-#include <libsolaris/ephemeris/fixed-object.h>
-#include <libsolaris/ephemeris/planet.h>
-#include <libsolaris/math.h>
-#include <libsolaris/types.h>
-#include <libsolaris/utility/arena.h>
-#include <libsolaris/utility/number-set.h>
-#include <libsolaris/utility/string.h>
+#include <solaris/arena.h>
+#include <solaris/catalog.h>
+#include <solaris/globe.h>
+#include <solaris/linear.h>
+#include <solaris/math.h>
+#include <solaris/object.h>
+#include <solaris/planet.h>
+#include <solaris/string.h>
+#include <solaris/time.h>
+#include <solaris/types.h>
 
 #endif// SOLARIS_H

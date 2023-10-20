@@ -21,9 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <libsolaris/ephemeris/catalog.h>
-#include <libsolaris/ephemeris/generated/objects.h>
-#include <libsolaris/ephemeris/generated/planets.h>
+#include <solaris/catalog.h>
+
+#include "gen/objects.h"
+#include "gen/planets.h"
 
 /// Acquire the builtin catalog
 Catalog catalog_acquire(void) {
@@ -51,15 +52,14 @@ void compute_geographic_planet(MemoryArena* arena, ComputeResult* result, Planet
         Horizontal position = observe_geographic(&position_planet, &spec->observer, &spec->date);
         result->altitudes[step] = position.altitude;
         result->azimuths[step] = position.azimuth;
-        date_time_add(&spec->date, (s64) spec->step_size, spec->unit);
+        time_add(&spec->date, (s64) spec->step_size, spec->unit);
     }
 }
 
 /// Compute the geographic position of the specified fixed object according
 /// to the specification
 void compute_geographic_fixed(MemoryArena* arena,
-                              ComputeResult* result,
-                              FixedObject* object,
+                              ComputeResult* result, Object* object,
                               ComputeSpecification* spec) {
     if (result->capacity < spec->steps) {
         result->altitudes = (f64*) memory_arena_alloc(arena, spec->steps);
@@ -67,10 +67,10 @@ void compute_geographic_fixed(MemoryArena* arena,
         result->capacity = spec->steps;
     }
     for (usize step = 0; step < spec->steps; ++step) {
-        Equatorial position_object = fixed_object_position(object, &spec->date);
+        Equatorial position_object = object_position(object, &spec->date);
         Horizontal position = observe_geographic(&position_object, &spec->observer, &spec->date);
         result->altitudes[step] = position.altitude;
         result->azimuths[step] = position.azimuth;
-        date_time_add(&spec->date, (s64) spec->step_size, spec->unit);
+        time_add(&spec->date, (s64) spec->step_size, spec->unit);
     }
 }

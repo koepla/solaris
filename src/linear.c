@@ -21,8 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <libsolaris/ephemeris/coordinates.h>
-#include <libsolaris/math.h>
+#include <solaris/linear.h>
+#include <solaris/math.h>
 
 /// Retrieves the length of the vector
 f64 vector3_length(Vector3* vector) {
@@ -226,9 +226,9 @@ Horizontal local_equatorial_to_horizontal(f64 declination, f64 hour_angle, f64 l
 }
 
 /// Computes the Horizontal position of an object with spherical coordinates
-Horizontal observe_geographic(Equatorial* equatorial, Geographic* observer, DateTime* date) {
-    DateTime utc = date_time_utc_local(date);
-    f64 lmst = date_time_gmst(&utc) + observer->longitude;
+Horizontal observe_geographic(Equatorial* equatorial, Geographic* observer, Time* date) {
+    Time utc = time_utc_local(date);
+    f64 lmst = time_gmst(&utc) + observer->longitude;
     f64 hour_angle = lmst - equatorial->right_ascension;
     return local_equatorial_to_horizontal(equatorial->declination, hour_angle, observer->latitude);
 }

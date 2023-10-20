@@ -2,6 +2,10 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=clion,intellij,cmake,c++
 
 build/
+.idea/
+.vscode/
+.cache/
+compile_commands.json
 
 ### C++ ###
 # Prerequisites

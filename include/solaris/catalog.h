@@ -21,13 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SOLARIS_EPHEMERIS_CATALOG_H
-#define SOLARIS_EPHEMERIS_CATALOG_H
+#ifndef SOLARIS_CATALOG_H
+#define SOLARIS_CATALOG_H
 
-#include <libsolaris/ephemeris/coordinates.h>
-#include <libsolaris/ephemeris/fixed-object.h>
-#include <libsolaris/ephemeris/planet.h>
-#include <libsolaris/math.h>
+#include <solaris/linear.h>
+#include <solaris/math.h>
+#include <solaris/object.h>
+#include <solaris/planet.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,7 +35,7 @@ extern "C" {
 
 typedef struct Catalog {
     Planet* planets;
-    FixedObject* objects;
+    Object* objects;
     usize planet_count;
     usize object_count;
 } Catalog;
@@ -51,11 +51,11 @@ typedef struct ComputeResult {
 } ComputeResult;
 
 typedef struct ComputeSpecification {
-    DateTime date;
+    Time date;
     Geographic observer;
     usize steps;
     usize step_size;
-    DateTimeUnit unit;
+    TimeUnit unit;
 } ComputeSpecification;
 
 /// Compute the geographic position of the specified planet according
@@ -95,11 +95,11 @@ SOLARIS_API void compute_geographic_planet(MemoryArena* arena,
 //        a user can specify, and pre-allocate the required space in result.
 SOLARIS_API void compute_geographic_fixed(MemoryArena* arena,
                                           ComputeResult* result,
-                                          FixedObject* object,
+                                          Object* object,
                                           ComputeSpecification* spec);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif// SOLARIS_EPHEMERIS_CATALOG_H
+#endif// SOLARIS_CATALOG_H

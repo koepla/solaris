@@ -21,13 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SOLARIS_EPHEMERIS_GENERATED_OBJECTS_H
-#define SOLARIS_EPHEMERIS_GENERATED_OBJECTS_H
+#ifndef SOLARIS_GENERATED_OBJECTS_H
+#define SOLARIS_GENERATED_OBJECTS_H
 
-#include <libsolaris/ephemeris/fixed-object.h>
+#include <solaris/object.h>
 
 // clang-format off
-static FixedObject generated_objects[] = {
+static Object generated_objects[] = {
 	{ { CATALOG_IC, 5370 }, CONSTELLATION_ANDROMEDA, CLASSIFICATION_GALAXY, { 0.025000, 32.750000, 1.000000 }, 0.700000, 15.000000 },
 	{ { CATALOG_IC, 5371 }, CONSTELLATION_ANDROMEDA, CLASSIFICATION_UNIDENTIFIED, { 0.050000, 32.816667, 1.000000 }, 0.000000, 0.000000 },
 	{ { CATALOG_NGC, 7801 }, CONSTELLATION_CASSIOPEIA, CLASSIFICATION_NONEXISTENT, { 0.100000, 50.700000, 1.000000 }, 0.000000, 0.000000 },
@@ -13259,4 +13259,4 @@ static FixedObject generated_objects[] = {
 
 #elif
 #error "Generated objects should only be included once, they are for internal use only!"
-#endif// SOLARIS_EPHEMERIS_GENERATED_OBJECTS_H
+#endif// SOLARIS_GENERATED_OBJECTS_H

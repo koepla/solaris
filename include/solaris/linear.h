@@ -21,11 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SOLARIS_EPHEMERIS_COORDINATES_H
-#define SOLARIS_EPHEMERIS_COORDINATES_H
+#ifndef SOLARIS_LINEAR_H
+#define SOLARIS_LINEAR_H
 
-#include <libsolaris/date-time.h>
-#include <libsolaris/types.h>
+#include <solaris/time.h>
+#include <solaris/types.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -163,10 +163,10 @@ SOLARIS_API Horizontal local_equatorial_to_horizontal(f64 declination, f64 hour_
 /// @param observer The geographic coordinates of the observer
 /// @param date The date and time for the computation
 /// @return the Computed horizontal coordinates
-SOLARIS_API Horizontal observe_geographic(Equatorial* equatorial, Geographic* observer, DateTime* date);
+SOLARIS_API Horizontal observe_geographic(Equatorial* equatorial, Geographic* observer, Time* date);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif// SOLARIS_EPHEMERIS_COORDINATES_H
+#endif// SOLARIS_LINEAR_H

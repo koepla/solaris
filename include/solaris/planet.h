@@ -21,13 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef SOLARIS_EPHEMERIS_PLANET_H
-#define SOLARIS_EPHEMERIS_PLANET_H
+#ifndef SOLARIS_PLANET_H
+#define SOLARIS_PLANET_H
 
-#include <libsolaris/date-time.h>
-#include <libsolaris/ephemeris/coordinates.h>
-#include <libsolaris/math.h>
-#include <libsolaris/utility/string.h>
+#include <solaris/linear.h>
+#include <solaris/math.h>
+#include <solaris/string.h>
+#include <solaris/time.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,24 +60,17 @@ typedef struct Planet {
     Elements rate;
 } Planet;
 
-/// Creates a new planet
-/// @param name the name of the planet
-/// @param orbit The orbital elements of the planet
-/// @param rate The rate of change of the orbital elements in [°/century]
-/// @return A newly created planet
-SOLARIS_API Planet planet_new(PlanetName name, Elements* orbit, Elements* rate);
-
 /// Computes the orbital position of the planet
 /// @param planet The planet
 /// @param date date and time for the computation
 /// @return the computed orbital coordinates
-SOLARIS_API Elements planet_position_orbital(Planet* planet, DateTime* date);
+SOLARIS_API Elements planet_position_orbital(Planet* planet, Time* date);
 
 /// Computes the equatorial position of the planet
 /// @param planet The planet
 /// @param date date and time for the computation
 /// @return the computed equatorial coordinates
-SOLARIS_API Equatorial planet_position_equatorial(Planet* planet, DateTime* date);
+SOLARIS_API Equatorial planet_position_equatorial(Planet* planet, Time* date);
 
 /// Retrieves the name of the planet in string representation
 /// @param name The name of the planet
@@ -88,4 +81,4 @@ SOLARIS_API const char* planet_string(PlanetName name);
 }
 #endif
 
-#endif// SOLARIS_EPHEMERIS_PLANET_H
+#endif// SOLARIS_PLANET_H
