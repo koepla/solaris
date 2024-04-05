@@ -27,7 +27,7 @@
 #include <solaris/string.h>
 
 /// Creates a nil StringView
-StringView string_view_nil() {
+StringView string_view_nil(void) {
     return (StringView){ .data = nil, .length = 0 };
 }
 

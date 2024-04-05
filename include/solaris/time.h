@@ -52,11 +52,11 @@ SOLARIS_API void time_add(Time* date, s64 amount, TimeUnit unit);
 
 /// Retrieves the local DateTime
 /// @return Local DateTime
-SOLARIS_API Time time_now();
+SOLARIS_API Time time_now(void);
 
 /// Retrieves the corresponding UTC DateTime
 /// @return UTC DateTime
-SOLARIS_API Time time_utc();
+SOLARIS_API Time time_utc(void);
 
 /// Retrieves the UTC DateTime which is relative to the specified local time
 /// @param local_time The local time

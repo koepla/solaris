@@ -36,7 +36,7 @@ typedef struct StringView {
 } StringView;
 
 /// Creates a nil StringView
-SOLARIS_API StringView string_view_nil();
+SOLARIS_API StringView string_view_nil(void);
 
 /// Creates a new StringView instance
 /// @param str The string
