@@ -332,6 +332,32 @@ time_t time_unix(Time* date) {
     return mktime(time_info);
 }
 
+/// Checks if the specified date is valid
+SOLARIS_API b8 time_valid(Time* date) {
+    if (date->year < 0 || date->year > 9999) {
+        return false;
+    }
+    if (date->month < 0 || date->month > 12) {
+        return false;
+    }
+    if (date->day < 1 || date->day > time_days_in_month(date)) {
+        return false;
+    }
+    if (date->hour < 0 || date->hour > 23) {
+        return false;
+    }
+    if (date->minute < 0 || date->minute > 59) {
+        return false;
+    }
+    if (date->second < 0 || date->second > 59) {
+        return false;
+    }
+    if (date->millisecond < 0) {
+        return false;
+    }
+    return true;
+}
+
 /// Equality check for DateTime
 b8 time_equal(Time* left, Time* right) {
     return left->second == right->second && left->minute == right->minute && left->hour == right->hour &&

@@ -104,29 +104,34 @@ SOLARIS_API f64 time_gmst(Time* utc);
 /// @return Unix timestamp
 SOLARIS_API time_t time_unix(Time* date);
 
+/// Checks if the specified date is valid
+/// @param date The date
+/// @return Boolean that states whether the date is valid
+SOLARIS_API b8 time_valid(Time* date);
+
 /// Equality check for DateTime
 /// @param left The left DateTime
 /// @param right The right DateTime
-/// @return b8ean that states equality
+/// @return Boolean that states equality
 SOLARIS_API b8 time_equal(Time* left, Time* right);
 
 /// Inequality check for DateTime
 /// @param left The left DateTime
 /// @param right The right DateTime
-/// @return b8ean that states inequality
+/// @return Boolean that states inequality
 SOLARIS_API b8 time_not_equal(Time* left, Time* right);
 
 /// Less-than check for DateTime
 /// @param left The left DateTime
 /// @param right The right DateTime
-/// @return b8ean that states if the left DateTime is less than the
+/// @return Boolean that states if the left DateTime is less than the
 ///         right DateTime
 SOLARIS_API b8 time_less_than(Time* left, Time* right);
 
 /// Greater-than operator for DateTime
 /// @param left The left DateTime
 /// @param right The right DateTime
-/// @return b8ean that states if the left DateTime is greater than
+/// @return Boolean that states if the left DateTime is greater than
 ///         the right DateTime
 SOLARIS_API b8 time_greater_than(Time* left, Time* right);
 
