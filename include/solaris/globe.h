@@ -28,7 +28,7 @@
 #include <solaris/object.h>
 
 #ifndef SOLARIS_GLOBE_TREE_MAX_DEPTH
-#define SOLARIS_GLOBE_TREE_MAX_DEPTH 8
+#define SOLARIS_GLOBE_TREE_MAX_DEPTH 4
 #endif// SOLARIS_GLOBE_TREE_MAX_DEPTH
 
 /// GlobeArea Represents an area in the globe

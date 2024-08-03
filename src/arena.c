@@ -26,7 +26,7 @@
 #include <solaris/arena.h>
 
 /// Align the specified size according to arena alignment
-usize memory_arena_alignment_size(MemoryArena* arena, usize size) {
+static usize memory_arena_alignment_size(MemoryArena* arena, usize size) {
     usize align_distance = size % arena->alignment;
     if (align_distance != 0) {
         size += align_distance;
@@ -35,11 +35,12 @@ usize memory_arena_alignment_size(MemoryArena* arena, usize size) {
 }
 
 /// Align the used offset according to arena alignment
-usize memory_arena_alignment_offset(MemoryArena* arena) {
+static usize memory_arena_alignment_offset(MemoryArena* arena) {
     return memory_arena_alignment_size(arena, arena->current->used);
 }
 
-MemoryBlock* memory_arena_block_new(MemoryArena* arena, usize requested_size) {
+/// Creates a new memory block
+static MemoryBlock* memory_arena_block_new(MemoryArena* arena, usize requested_size) {
     // Default block size is 4 Kb, which should be a page?
     usize block_size = 4 * 1024;
 
@@ -77,6 +78,19 @@ MemoryArena memory_arena_identity(MemoryAlignment alignment) {
     return memory_arena_make(&spec);
 }
 
+/// Clears the memory arena by freeing all blocks
+void memory_arena_clear(MemoryArena* arena) {
+    while (arena->current != nil) {
+        MemoryBlock* before = arena->current->before;
+        // We must release the memory block itself as it is the base of the allocation
+        arena->release(arena->current);
+        arena->current = before;
+    }
+    arena->blocks = 0;
+    arena->total_memory = 0;
+    arena->current = memory_arena_block_new(arena, 0);
+}
+
 /// Destroys the specified memory arena
 void memory_arena_destroy(MemoryArena* arena) {
     while (arena->current != nil) {
@@ -88,6 +102,8 @@ void memory_arena_destroy(MemoryArena* arena) {
     arena->reserve = nil;
     arena->release = nil;
     arena->current = nil;
+    arena->blocks = 0;
+    arena->total_memory = 0;
 }
 
 /// Allocate a block of memory in the specified arena

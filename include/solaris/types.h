@@ -25,6 +25,7 @@
 #define SOLARIS_TYPES_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 #ifdef SOLARIS_SHARED
 #ifdef _WIN32
@@ -59,7 +60,7 @@ typedef u8 b8;
 #define true 1
 #define false 0
 
-#define nil ((void*) 0)
+#define nil NULL
 
 #define ARRAY_SIZE_IMPL(arr) sizeof(arr) / sizeof(arr[0])
 #define ARRAY_SIZE(arr) ARRAY_SIZE_IMPL(arr)

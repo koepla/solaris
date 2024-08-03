@@ -72,6 +72,10 @@ SOLARIS_API MemoryArena memory_arena_make(MemoryArenaSpecification* spec);
 ///       as reserve/release functions
 SOLARIS_API MemoryArena memory_arena_identity(MemoryAlignment alignment);
 
+/// Clears the memory arena by freeing all blocks
+/// @param arena The arena
+SOLARIS_API void memory_arena_clear(MemoryArena* arena);
+
 /// Destroys the specified memory arena
 /// @param arena The arena
 SOLARIS_API void memory_arena_destroy(MemoryArena* arena);

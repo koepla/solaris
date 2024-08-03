@@ -135,17 +135,15 @@ void globe_node_list_emplace(GlobeNodeList* list, GlobeSection* section, Object*
     GlobeNode* node = globe_node_make(list->arena, section, object);
     if (list->head == nil) {
         list->head = node;
+        list->tail = node;
         node->previous = nil;
         list->size++;
         return;
     }
 
-    // run cursor to tail
-    GlobeNode* it = list->head;
-    for (; it->next != nil; it = it->next) { }
-
-    it->next = node;
-    node->previous = it;
+    node->previous = list->tail;
+    node->next = nil;
+    list->tail->next = node;
     list->tail = node;
     list->size++;
 }
@@ -293,10 +291,12 @@ static void globe_tree_search_to_list(GlobeTree* globe, GlobeNodeList* list, Glo
         }
     }
 
+    // BIG TODO(elias): This doesn't work at all
+
     // check all children
     for (usize i = 0; i < 4; ++i) {
         GlobeTree* child = globe->trees[i];
-        if (!child) {
+        if (child == nil) {
             continue;
         }
 
