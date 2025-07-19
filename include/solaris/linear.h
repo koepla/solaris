@@ -45,7 +45,7 @@ typedef struct Horizontal {
     f64 altitude;
 } Horizontal;
 
-/// Geographic coordinates describe an observers
+/// Geographic coordinates describe an observer
 /// position on the globe of the earth
 typedef struct Geographic {
     f64 latitude;
@@ -153,9 +153,9 @@ SOLARIS_API Vector3 vector3_from_equatorial(Equatorial const *equatorial);
 SOLARIS_API Equatorial equatorial_from_vector3(Vector3 const *vector);
 
 /// Transforms Equatorial coordinates to Horizontal ones
-/// @param declination declination in math_degrees
+/// @param declination declination in degrees
 /// @param hour_angle Hour angle (by Greenwich Mean Sidereal Time) in degrees
-/// @param latitude latitude in math_degrees
+/// @param latitude latitude in degrees
 /// @return The transformed horizontal coordinates
 SOLARIS_API Horizontal local_equatorial_to_horizontal(f64 declination, f64 hour_angle, f64 latitude);
 

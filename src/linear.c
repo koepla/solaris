@@ -229,8 +229,8 @@ Horizontal local_equatorial_to_horizontal(f64 const declination, f64 const hour_
 Horizontal observe_geographic(Equatorial const *const equatorial,
                               Geographic const *const observer,
                               Time const *const date) {
-    Time utc = time_utc_local(date);
-    f64 lmst = time_gmst(&utc) + observer->longitude;
-    f64 hour_angle = lmst - equatorial->right_ascension;
-    return local_equatorial_to_horizontal(equatorial->declination, hour_angle, observer->latitude);
+    Time const utc = time_utc_local(date);
+    f64 const lmst = time_gmst(&utc) + observer->longitude;
+    f64 const local_hour_angle = lmst - equatorial->right_ascension;
+    return local_equatorial_to_horizontal(equatorial->declination, local_hour_angle, observer->latitude);
 }

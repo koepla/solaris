@@ -126,7 +126,7 @@ Equatorial planet_position_equatorial(Planet const *const planet, Time const *co
 }
 
 /// Retrieves the name of the planet in string representation
-const char *planet_string(PlanetName name) {
+const char *planet_string(PlanetName const name) {
     switch (name) {
         case PLANET_MERCURY:
             return "Mercury";
@@ -145,6 +145,8 @@ const char *planet_string(PlanetName name) {
         case PLANET_NEPTUNE:
             return "Neptune";
         case PLANET_COUNT:
-            return "Invalid";
+        default:
+            break;
     }
+    return "Invalid";
 }

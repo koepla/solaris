@@ -73,13 +73,6 @@ SOLARIS_API f64 math_fraction(f64 x);
 /// @return Modulo of operands
 SOLARIS_API f64 math_modulo(f64 a, f64 b);
 
-/// Alter x so that it stays in the interval [low;high]
-/// @param x The value that should be bounded
-/// @param low The lower bound
-/// @param high The higher bound
-/// @return The bounded value
-SOLARIS_API f64 math_bound(f64 x, f64 low, f64 high);
-
 /// Retrieves the sine value of the specified angle
 /// @param angle The angle
 /// @return The sine value

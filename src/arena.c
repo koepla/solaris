@@ -25,13 +25,14 @@
 
 #include <solaris/arena.h>
 
+enum {
+    BLOCK_SIZE = 4 * 1024,
+};
+
 /// Align the specified size according to arena alignment
 static usize memory_arena_alignment_size(MemoryArena const *const arena, usize size) {
-    usize const align_distance = size % arena->alignment;
-    if (align_distance != 0) {
-        size += align_distance;
-    }
-    return size;
+    usize const alignment = (usize) arena->alignment;
+    return (size + alignment - 1) & ~(alignment - 1);
 }
 
 /// Align the used offset according to arena alignment
@@ -41,11 +42,8 @@ static usize memory_arena_alignment_offset(MemoryArena const *const arena) {
 
 /// Creates a new memory block
 static MemoryBlock *memory_arena_block_new(MemoryArena *const arena, usize const requested_size) {
-    // The default block size is 4 KiB
-    usize const block_size = 4 * 1024;
-
     // At this point, the requested size is already aligned
-    usize const actual_size = requested_size > block_size ? requested_size : block_size;
+    usize const actual_size = requested_size > BLOCK_SIZE ? requested_size : BLOCK_SIZE;
 
     MemoryBlock *block = arena->reserve(sizeof(MemoryBlock) + actual_size);
     block->base = (u8 *) block + sizeof(MemoryBlock);
@@ -53,7 +51,7 @@ static MemoryBlock *memory_arena_block_new(MemoryArena *const arena, usize const
     block->used = 0;
     block->before = nil;
     block->id = arena->blocks++;
-    arena->total_memory += block_size;
+    arena->total_memory += BLOCK_SIZE;
     return block;
 }
 
@@ -80,11 +78,8 @@ MemoryArena memory_arena_identity(MemoryAlignment const alignment) {
 
 /// Clears the memory arena by freeing all blocks
 void memory_arena_clear(MemoryArena *const arena) {
-    while (arena->current != nil) {
-        MemoryBlock *before = arena->current->before;
-        // We must release the memory block itself as it is the base of the allocation
-        arena->release(arena->current);
-        arena->current = before;
+    for (MemoryBlock *it = arena->current; it != nil; it = it->before) {
+        arena->release(it);
     }
     arena->blocks = 0;
     arena->total_memory = 0;
@@ -110,29 +105,16 @@ void memory_arena_destroy(MemoryArena *const arena) {
 void *memory_arena_alloc(MemoryArena *const arena, usize const size) {
     usize const aligned_size = memory_arena_alignment_size(arena, size);
 
-    b8 back_swap = false;
     if (arena->current->used + aligned_size > arena->current->size) {
-        // If the current block is less than half full, we prepend a new block
-        // for the incoming allocation to the old current block, to not waste the unused memory
-        MemoryBlock *const block = memory_arena_block_new(arena, aligned_size);
-        if (arena->current->used < arena->current->size / 2) {
-            back_swap = true;
-        }
-        block->before = arena->current;
-        arena->current = block;
+        // Not enough space → add new block and prepend to list
+        MemoryBlock *new_block = memory_arena_block_new(arena, aligned_size);
+        new_block->before = arena->current;
+        arena->current = new_block;
     }
 
-    usize const aligned_offset = memory_arena_alignment_offset(arena);
-    u8 *const result = arena->current->base + aligned_offset;
-    arena->current->used = aligned_offset + aligned_size;
-
-    if (back_swap) {
-        MemoryBlock *const current = arena->current;
-        MemoryBlock *const previous_before = current->before->before;
-        arena->current = arena->current->before;
-        arena->current->before = current;
-        arena->current->before->before = previous_before;
-    }
+    usize const offset = memory_arena_alignment_offset(arena);
+    void *result = arena->current->base + offset;
+    arena->current->used = offset + aligned_size;
 
     return result;
 }

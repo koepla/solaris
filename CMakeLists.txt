@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(solaris VERSION 0.0.1 DESCRIPTION "Solaris Library" LANGUAGES C)
+project(solaris VERSION 0.0.1 DESCRIPTION "Solaris Library" LANGUAGES C CXX)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -76,4 +76,12 @@ install(TARGETS ${PROJECT_NAME}
 if (DEFINED BUILD_DIRECTORY AND EXISTS "${BUILD_DIRECTORY}/compile_commands.json")
     file(CREATE_LINK "${BUILD_DIRECTORY}/compile_commands.json"
             "${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json")
+endif ()
+
+include(CTest)
+option(BUILD_TESTING "Enable building tests" ON)
+
+if (BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(tests)
 endif ()
