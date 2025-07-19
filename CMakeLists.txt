@@ -69,18 +69,6 @@ foreach(HEADER ${SOLARIS_HEADER_LIST})
     )
 endforeach()
 
-
-
-# #############################################################################
-# DRIVER CONFIGURATION
-# #############################################################################
-
-if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
-    set(DRIVER "${PROJECT_NAME}-driver")
-    add_executable(${DRIVER} "${CMAKE_CURRENT_SOURCE_DIR}/driver.c")
-    target_link_libraries(${DRIVER} PRIVATE ${PROJECT_NAME})
-endif()
-
 # #############################################################################
 # DEVELOPMENT CONFIGURATION
 # #############################################################################
