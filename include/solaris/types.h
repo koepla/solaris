@@ -24,8 +24,8 @@
 #ifndef SOLARIS_TYPES_H
 #define SOLARIS_TYPES_H
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #ifdef SOLARIS_SHARED
 #ifdef _WIN32
@@ -53,7 +53,7 @@ typedef int64_t s64;
 
 typedef double f64;
 
-typedef u64 usize;
+typedef size_t usize;
 typedef s64 ssize;
 
 typedef u8 b8;
