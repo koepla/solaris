@@ -25,7 +25,6 @@
 #define SOLARIS_OBJECT_H
 
 #include <solaris/linear.h>
-#include <solaris/string.h>
 #include <solaris/time.h>
 
 #ifdef __cplusplus
@@ -180,22 +179,22 @@ typedef struct Object {
 /// @param body The body of which the position shall be computed
 /// @param date_time Date for computation
 /// @return precessed position
-SOLARIS_API Equatorial object_position(Object* body, Time* date_time);
+SOLARIS_API Equatorial object_position(Object const *body, Time const *date_time);
 
 /// Retrieves a string representation of the provided classification
 /// @param classification The classification
 /// @return String representation of the classification
-SOLARIS_API const char* classification_string(Classification classification);
+SOLARIS_API const char *classification_string(Classification classification);
 
 /// Retrieves a string representation of the provided catalog
 /// @param catalog The catalog
 /// @return String representation of the catalog
-SOLARIS_API const char* catalog_string(CatalogName catalog);
+SOLARIS_API const char *catalog_string(CatalogName catalog);
 
 /// Retrieves a string representation of the provided constellation
 /// @param constellation The constellation
 /// @return String representation of the constellation
-SOLARIS_API const char* constellation_string(Constellation constellation);
+SOLARIS_API const char *constellation_string(Constellation constellation);
 
 #ifdef __cplusplus
 }

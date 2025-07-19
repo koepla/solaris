@@ -48,7 +48,7 @@ typedef enum TimeUnit { UNIT_SECONDS, UNIT_MINUTES, UNIT_HOURS, UNIT_DAYS, UNIT_
 /// @param date The dateTime instance that is modified
 /// @param amount The amount to add
 /// @param unit The unit of time that is added
-SOLARIS_API void time_add(Time* date, s64 amount, TimeUnit unit);
+SOLARIS_API void time_add(Time *date, s64 amount, TimeUnit unit);
 
 /// Retrieves the local DateTime
 /// @return Local DateTime
@@ -65,75 +65,91 @@ SOLARIS_API Time time_utc(void);
 /// @note There is no guarantee that the relative UTC DateTime is fully correct.
 ///       Internally, the current UTC offset is used, so there can be differences
 ///       when there would be a time shift.
-SOLARIS_API Time time_utc_local(Time* local_time);
+SOLARIS_API Time time_utc_local(Time const *local_time);
 
 /// Calculates the difference of the two DateTimes in seconds
 /// @param a First DateTime
 /// @param b Second DateTime
 /// @return Difference in seconds (b - a)
-SOLARIS_API s64 time_difference(Time* a, Time* b);
+SOLARIS_API s64 time_difference(Time const *a, Time const *b);
 
 /// Calculates the julian day number for the given date
 /// @param date The date which is used for the calculation
 /// @return Julian day number
-SOLARIS_API f64 time_jdn(Time* date);
+SOLARIS_API f64 time_jdn(Time const *date);
 
 /// Calculates the mean julian day number for the given date
 /// @param date The date which is used for the calculation
 /// @return Mean julian day number
-SOLARIS_API f64 time_mjdn(Time* date);
+SOLARIS_API f64 time_mjdn(Time const *date);
 
 /// Calculates the julian centuries since J2000 for the specified date
-/// @param date
-/// @param floor
-/// @return
-SOLARIS_API f64 time_jc(Time* date, b8 floor);
+/// @param date The date which is used for the calculation
+/// @param floor Whether to floor the result
+/// @return The julian centuries since J2000
+SOLARIS_API f64 time_jc(Time const *date, b8 floor);
 
 /// Returns the bessel epoch for the given date
 /// @param date Date for the calculation
 /// @return Bessel epoch
-SOLARIS_API f64 time_be(Time* date);
+SOLARIS_API f64 time_be(Time const *date);
 
 /// Calculates the greenwich mean sidereal time in math_degrees
 /// @param utc The relative utc time for the calculation
 /// @return Sidereal time in math_degrees
-SOLARIS_API f64 time_gmst(Time* utc);
+SOLARIS_API f64 time_gmst(Time const *utc);
 
 /// Computes the unix timestamp for the date
 /// @param date The date
 /// @return Unix timestamp
-SOLARIS_API time_t time_unix(Time* date);
+SOLARIS_API time_t time_unix(Time const *date);
 
 /// Checks if the specified date is valid
 /// @param date The date
 /// @return Boolean that states whether the date is valid
-SOLARIS_API b8 time_valid(Time* date);
+SOLARIS_API b8 time_valid(Time const *date);
+
+/// Compares the two time instances
+/// @param left The left time instance
+/// @param right The right time instance
+/// @return A value that is < 0 if the left < right, 0 if left == right, > 0 if left > right
+SOLARIS_API s64 time_compare(Time const *const left, Time const *const right);
 
 /// Equality check for DateTime
 /// @param left The left DateTime
 /// @param right The right DateTime
 /// @return Boolean that states equality
-SOLARIS_API b8 time_equal(Time* left, Time* right);
+SOLARIS_API b8 time_equal(Time const *left, Time const *right);
 
 /// Inequality check for DateTime
 /// @param left The left DateTime
 /// @param right The right DateTime
 /// @return Boolean that states inequality
-SOLARIS_API b8 time_not_equal(Time* left, Time* right);
+SOLARIS_API b8 time_not_equal(Time const *left, Time const *right);
+
+/// Greater-than check for DateTime
+/// @param left The left DateTime
+/// @param right The right DateTime
+/// @return Boolean that states if the left DateTime is greater than the right DateTime
+SOLARIS_API b8 time_gt(Time const *left, Time const *right);
+
+/// Greater-than or equal check for DateTime
+/// @param left The left DateTime
+/// @param right The right DateTime
+/// @return Boolean that states if the left DateTime is greater than or equal the right DateTime
+SOLARIS_API b8 time_ge(Time const *left, Time const *right);
 
 /// Less-than check for DateTime
 /// @param left The left DateTime
 /// @param right The right DateTime
-/// @return Boolean that states if the left DateTime is less than the
-///         right DateTime
-SOLARIS_API b8 time_less_than(Time* left, Time* right);
+/// @return Boolean that states if the left DateTime is less than the right DateTime
+SOLARIS_API b8 time_lt(Time const *left, Time const *right);
 
-/// Greater-than operator for DateTime
+/// Less-than or equal check for DateTime
 /// @param left The left DateTime
 /// @param right The right DateTime
-/// @return Boolean that states if the left DateTime is greater than
-///         the right DateTime
-SOLARIS_API b8 time_greater_than(Time* left, Time* right);
+/// @return Boolean that states if the left DateTime is less than or equal the right DateTime
+SOLARIS_API b8 time_le(Time const *left, Time const *right);
 
 #ifdef __cplusplus
 }

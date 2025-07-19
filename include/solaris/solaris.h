@@ -30,7 +30,6 @@
 #include <solaris/math.h>
 #include <solaris/object.h>
 #include <solaris/planet.h>
-#include <solaris/string.h>
 #include <solaris/time.h>
 #include <solaris/types.h>
 

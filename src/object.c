@@ -24,16 +24,16 @@
 #include <solaris/object.h>
 
 /// Computes the precessed equatorial position of the fixed object with the equinox of date
-Equatorial object_position(Object* body, Time* date_time) {
-    f64 epoch = time_jc(date_time, false);
-    Matrix3x3 precession = matrix3x3_precession(REFERENCE_PLANE_EQUATORIAL, -0.000012775, epoch);
-    Vector3 position = vector3_from_equatorial(&body->position);
-    Vector3 precessed = matrix3x3_mul_vector3(&precession, &position);
+Equatorial object_position(Object const *const body, Time const *const date_time) {
+    f64 const epoch = time_jc(date_time, false);
+    Matrix3x3 const precession = matrix3x3_precession(REFERENCE_PLANE_EQUATORIAL, -0.000012775, epoch);
+    Vector3 const position = vector3_from_equatorial(&body->position);
+    Vector3 const precessed = matrix3x3_mul_vector3(&precession, &position);
     return equatorial_from_vector3(&precessed);
 }
 
 /// Retrieves a string representation of the provided classification
-const char* classification_string(Classification classification) {
+const char *classification_string(Classification const classification) {
     switch (classification) {
         case CLASSIFICATION_GALAXY:
             return "Galaxy";
@@ -73,7 +73,7 @@ const char* classification_string(Classification classification) {
 }
 
 /// Retrieves a string representation of the provided catalog
-const char* catalog_string(CatalogName catalog) {
+const char *catalog_string(CatalogName const catalog) {
     switch (catalog) {
         case CATALOG_NGC:
             return "NGC";
@@ -87,7 +87,7 @@ const char* catalog_string(CatalogName catalog) {
 }
 
 /// Retrieves a string representation of the provided constellation
-const char* constellation_string(Constellation constellation) {
+const char *constellation_string(Constellation const constellation) {
     switch (constellation) {
         case CONSTELLATION_ANDROMEDA:
             return "Andromeda";

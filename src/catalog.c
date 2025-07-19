@@ -28,49 +28,47 @@
 
 /// Acquire the builtin catalog
 Catalog catalog_acquire(void) {
-    return (Catalog){ .planets = generated_planets,
-                      .objects = generated_objects,
-                      .planet_count = ARRAY_SIZE(generated_planets),
-                      .object_count = ARRAY_SIZE(generated_objects) };
+    return (Catalog) { .planets = generated_planets,
+                       .objects = generated_objects,
+                       .planet_count = ARRAY_SIZE(generated_planets),
+                       .object_count = ARRAY_SIZE(generated_objects) };
 }
 
-/// Compute the geographic position of the specified planet according
-/// to the spec
-void compute_geographic_planet(MemoryArena* arena, ComputeResult* result, Planet* planet, ComputeSpecification* spec) {
-    // TODO(elias-plank): We will probably change the way we handle this. A better approach
-    // would be to just expect that the provided ComputeResult has enough room for the computation.
-    // If that is not the case, we could return the number of written computation steps. Clearly,
-    // our current approach is not optimal, as it could lead to unexpected behaviour when
-    // not used 100% correctly.
-    if (result->capacity < spec->steps) {
-        result->altitudes = (f64*) memory_arena_alloc(arena, spec->steps * sizeof(f64));
-        result->azimuths = (f64*) memory_arena_alloc(arena, spec->steps * sizeof(f64));
-        result->capacity = spec->steps;
-    }
+/// Compute the geographic position of the specified planet according to the spec
+void compute_geographic_planet(MemoryArena *arena,
+                               ComputeResult *result,
+                               Planet const *const planet,
+                               ComputeSpecification const *const spec) {
+    result->altitudes = (f64 *) memory_arena_alloc(arena, spec->steps * sizeof(f64));
+    result->azimuths = (f64 *) memory_arena_alloc(arena, spec->steps * sizeof(f64));
+    result->count = spec->steps;
+
+    Time it = spec->date;
     for (usize step = 0; step < spec->steps; ++step) {
-        Equatorial position_planet = planet_position_equatorial(planet, &spec->date);
-        Horizontal position = observe_geographic(&position_planet, &spec->observer, &spec->date);
+        Equatorial const position_planet = planet_position_equatorial(planet, &it);
+        Horizontal const position = observe_geographic(&position_planet, &spec->observer, &it);
         result->altitudes[step] = position.altitude;
         result->azimuths[step] = position.azimuth;
-        time_add(&spec->date, (s64) spec->step_size, spec->unit);
+        time_add(&it, (s64) spec->step_size, spec->unit);
     }
 }
 
 /// Compute the geographic position of the specified fixed object according
 /// to the specification
-void compute_geographic_fixed(MemoryArena* arena,
-                              ComputeResult* result, Object* object,
-                              ComputeSpecification* spec) {
-    if (result->capacity < spec->steps) {
-        result->altitudes = (f64*) memory_arena_alloc(arena, spec->steps);
-        result->azimuths = (f64*) memory_arena_alloc(arena, spec->steps);
-        result->capacity = spec->steps;
-    }
+void compute_geographic_fixed(MemoryArena *arena,
+                              ComputeResult *result,
+                              Object const *const object,
+                              ComputeSpecification const *const spec) {
+    result->altitudes = (f64 *) memory_arena_alloc(arena, spec->steps * sizeof(f64));
+    result->azimuths = (f64 *) memory_arena_alloc(arena, spec->steps * sizeof(f64));
+    result->count = spec->steps;
+
+    Time it = spec->date;
     for (usize step = 0; step < spec->steps; ++step) {
-        Equatorial position_object = object_position(object, &spec->date);
-        Horizontal position = observe_geographic(&position_object, &spec->observer, &spec->date);
+        Equatorial const position_object = object_position(object, &it);
+        Horizontal const position = observe_geographic(&position_object, &spec->observer, &it);
         result->altitudes[step] = position.altitude;
         result->azimuths[step] = position.azimuth;
-        time_add(&spec->date, (s64) spec->step_size, spec->unit);
+        time_add(&it, (s64) spec->step_size, spec->unit);
     }
 }
