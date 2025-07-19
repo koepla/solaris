@@ -30,8 +30,8 @@
 extern "C" {
 #endif
 
-typedef void* (*MemoryReserveFunc)(usize);
-typedef void (*MemoryReleaseFunc)(void*);
+typedef void *(*MemoryReserveFunc)(usize);
+typedef void (*MemoryReleaseFunc)(void *);
 
 typedef enum MemoryAlignment { ALIGNMENT1 = 1, ALIGNMENT4 = 4, ALIGNMENT8 = 8 } MemoryAlignment;
 
@@ -44,13 +44,13 @@ typedef struct MemoryArenaSpecification {
 typedef struct MemoryBlock {
     usize size;
     usize used;
-    u8* base;
-    struct MemoryBlock* before;
+    u8 *base;
+    struct MemoryBlock *before;
     usize id;
 } MemoryBlock;
 
 typedef struct MemoryArena {
-    MemoryBlock* current;
+    MemoryBlock *current;
     MemoryAlignment alignment;
     MemoryReserveFunc reserve;
     MemoryReleaseFunc release;
@@ -59,10 +59,9 @@ typedef struct MemoryArena {
 } MemoryArena;
 
 /// Creates a new memory arena
-/// @param arena The arena
 /// @param spec The arena specification
 /// @return Memory arena with one block
-SOLARIS_API MemoryArena memory_arena_make(MemoryArenaSpecification* spec);
+SOLARIS_API MemoryArena memory_arena_make(MemoryArenaSpecification const *spec);
 
 /// Creates an identity memory arena
 /// @param alignment The alignment for the allocations
@@ -74,17 +73,17 @@ SOLARIS_API MemoryArena memory_arena_identity(MemoryAlignment alignment);
 
 /// Clears the memory arena by freeing all blocks
 /// @param arena The arena
-SOLARIS_API void memory_arena_clear(MemoryArena* arena);
+SOLARIS_API void memory_arena_clear(MemoryArena *arena);
 
 /// Destroys the specified memory arena
 /// @param arena The arena
-SOLARIS_API void memory_arena_destroy(MemoryArena* arena);
+SOLARIS_API void memory_arena_destroy(MemoryArena *arena);
 
 /// Allocate a block of memory in the specified arena
 /// @param arena The arena
 /// @param size The size of the requested block
-/// @return Memory u8*
-SOLARIS_API u8* memory_arena_alloc(MemoryArena* arena, usize size);
+/// @return Memory void*
+SOLARIS_API void *memory_arena_alloc(MemoryArena *arena, usize size);
 
 #ifdef __cplusplus
 }

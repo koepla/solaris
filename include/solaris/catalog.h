@@ -24,8 +24,8 @@
 #ifndef SOLARIS_CATALOG_H
 #define SOLARIS_CATALOG_H
 
+#include <solaris/arena.h>
 #include <solaris/linear.h>
-#include <solaris/math.h>
 #include <solaris/object.h>
 #include <solaris/planet.h>
 
@@ -34,8 +34,8 @@ extern "C" {
 #endif
 
 typedef struct Catalog {
-    Planet* planets;
-    Object* objects;
+    Planet *planets;
+    Object *objects;
     usize planet_count;
     usize object_count;
 } Catalog;
@@ -45,9 +45,9 @@ typedef struct Catalog {
 SOLARIS_API Catalog catalog_acquire(void);
 
 typedef struct ComputeResult {
-    f64* altitudes;
-    f64* azimuths;
-    usize capacity;
+    f64 *altitudes;
+    f64 *azimuths;
+    usize count;
 } ComputeResult;
 
 typedef struct ComputeSpecification {
@@ -64,19 +64,10 @@ typedef struct ComputeSpecification {
 /// @param result Computed result
 /// @param planet The planet for the calculation
 /// @param spec The compute spec
-///
-/// @note This function requires heap allocation, which is the reason
-//        for the arena argument. If the capacity of the provided result is
-//        not sufficient to hold the number of specified steps,
-//        new memory gets allocated in the arena. It is highly recommended
-//        to use a temporary arena in a real world scenario, due to the fact
-//        of the need for a reallocation whenever a user increases the steps.
-//        Another suggested approach would be to limit the number of steps
-//        a user can specify, and pre-allocate the required space in result.
-SOLARIS_API void compute_geographic_planet(MemoryArena* arena,
-                                           ComputeResult* result,
-                                           Planet* planet,
-                                           ComputeSpecification* spec);
+SOLARIS_API void compute_geographic_planet(MemoryArena *arena,
+                                           ComputeResult *result,
+                                           Planet const *planet,
+                                           ComputeSpecification const *spec);
 
 /// Compute the geographic position of the specified fixed object according
 /// to the specification
@@ -84,19 +75,10 @@ SOLARIS_API void compute_geographic_planet(MemoryArena* arena,
 /// @param result Computed result
 /// @param object The object for the calculation
 /// @param spec The compute specification
-///
-/// @note This function requires heap allocation, which is the reason
-//        for the arena argument. If the capacity of the provided result is
-//        not sufficient to hold the number of specified steps,
-//        new memory gets allocated in the arena. It is highly recommended
-//        to use a temporary arena in a real world scenario, due to the fact
-//        of the need for a reallocation whenever a user increases the steps.
-//        Another suggested approach would be to limit the number of steps
-//        a user can specify, and pre-allocate the required space in result.
-SOLARIS_API void compute_geographic_fixed(MemoryArena* arena,
-                                          ComputeResult* result,
-                                          Object* object,
-                                          ComputeSpecification* spec);
+SOLARIS_API void compute_geographic_fixed(MemoryArena *arena,
+                                          ComputeResult *result,
+                                          Object const *object,
+                                          ComputeSpecification const *spec);
 
 #ifdef __cplusplus
 }

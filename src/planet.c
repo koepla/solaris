@@ -24,8 +24,8 @@
 #include <solaris/planet.h>
 
 /// Computes the orbital position of the planet
-Elements planet_position_orbital(Planet* planet, Time* date) {
-    f64 t = time_jc(date, false);
+Elements planet_position_orbital(Planet const *const planet, Time const *const date) {
+    f64 const t = time_jc(date, false);
 
     Elements elements;
     elements.semi_major_axis = planet->state.semi_major_axis + planet->rate.semi_major_axis * t;
@@ -38,12 +38,12 @@ Elements planet_position_orbital(Planet* planet, Time* date) {
 }
 
 /// Computes the eccentric anomaly using an iterative approach of kepler's equation
-f64 eccentric_anomaly(f64 mean_anomaly, f64 eccentricity) {
-    f64 eccentricity_degrees = math_degrees(eccentricity);
+f64 eccentric_anomaly(f64 const mean_anomaly, f64 const eccentricity) {
+    f64 const eccentricity_degrees = math_degrees(eccentricity);
     f64 result = mean_anomaly + eccentricity_degrees * math_sine(mean_anomaly);
     for (usize iteration = 0; iteration < 10; ++iteration) {
-        f64 delta_mean_anomaly = mean_anomaly - (result - eccentricity_degrees * math_sine(result));
-        f64 delta_eccentric = delta_mean_anomaly / (1 - eccentricity * math_cosine(result));
+        f64 const delta_mean_anomaly = mean_anomaly - (result - eccentricity_degrees * math_sine(result));
+        f64 const delta_eccentric = delta_mean_anomaly / (1 - eccentricity * math_cosine(result));
         result += delta_eccentric;
 
         if (math_abs(delta_eccentric) < 1.0e-12) {
@@ -54,7 +54,7 @@ f64 eccentric_anomaly(f64 mean_anomaly, f64 eccentricity) {
 }
 
 /// Computes the heliocentric position of the earth at the given point in time
-Vector3 position_of_earth(f64 julian_centuries) {
+Vector3 position_of_earth(f64 const julian_centuries) {
     // The EM-Barycenter kepler elements are hardcoded because they are needed for every computation
     Elements elements;
     elements.semi_major_axis = 1.00000261 + 0.00000562 * julian_centuries;
@@ -62,39 +62,39 @@ Vector3 position_of_earth(f64 julian_centuries) {
     elements.mean_longitude = 100.46457166 + 35999.37244981 * julian_centuries;
     elements.lon_perihelion = 102.93768193 + 0.32327364 * julian_centuries;
 
-    f64 a = elements.semi_major_axis;
-    f64 e = elements.eccentricity;
-    f64 L = elements.mean_longitude;
-    f64 w = elements.lon_perihelion;
+    f64 const a = elements.semi_major_axis;
+    f64 const e = elements.eccentricity;
+    f64 const L = elements.mean_longitude;
+    f64 const w = elements.lon_perihelion;
 
-    f64 mean_anomaly = math_modulo(L - w, 360.0);
-    f64 ecc_anomaly = eccentric_anomaly(mean_anomaly, e);
+    f64 const mean_anomaly = math_modulo(L - w, 360.0);
+    f64 const ecc_anomaly = eccentric_anomaly(mean_anomaly, e);
 
     Vector3 in_orbit;
     in_orbit.x = a * (math_cosine(ecc_anomaly) - e);
     in_orbit.y = a * math_sqrt(1 - e * e) * math_sine(ecc_anomaly);
     in_orbit.z = 0;
 
-    Matrix3x3 rotation = matrix3x3_rotation(ROTATION_AXIS_Z, w);
+    Matrix3x3 const rotation = matrix3x3_rotation(ROTATION_AXIS_Z, w);
     return matrix3x3_mul_vector3(&rotation, &in_orbit);
 }
 
 /// Computes the equatorial position of the planet
-Equatorial planet_position_equatorial(Planet* planet, Time* date) {
-    Elements elements = planet_position_orbital(planet, date);
-    f64 a = elements.semi_major_axis;
-    f64 e = elements.eccentricity;
-    f64 w = elements.lon_perihelion;
-    f64 Om = elements.lon_asc_node;
-    f64 L = elements.mean_longitude;
-    f64 I = elements.inclination;
+Equatorial planet_position_equatorial(Planet const *const planet, Time const *const date) {
+    Elements const elements = planet_position_orbital(planet, date);
+    f64 const a = elements.semi_major_axis;
+    f64 const e = elements.eccentricity;
+    f64 const w = elements.lon_perihelion;
+    f64 const Om = elements.lon_asc_node;
+    f64 const L = elements.mean_longitude;
+    f64 const I = elements.inclination;
 
     // compute argument of perihelion and mean anomaly
-    f64 perihelion = w - Om;
-    f64 mean_anomaly = math_modulo(L - w, 360.0);
+    f64 const perihelion = w - Om;
+    f64 const mean_anomaly = math_modulo(L - w, 360.0);
 
     // compute eccentric anomaly
-    f64 ecc_anomaly = eccentric_anomaly(mean_anomaly, e);
+    f64 const ecc_anomaly = eccentric_anomaly(mean_anomaly, e);
 
     // true anomaly
     Vector3 in_orbit;
@@ -103,30 +103,30 @@ Equatorial planet_position_equatorial(Planet* planet, Time* date) {
     in_orbit.z = 0;
 
     // clang-format off
-    Matrix3x3 chain[] = {
+    Matrix3x3 const chain[] = {
         matrix3x3_rotation(ROTATION_AXIS_Z, Om),
         matrix3x3_rotation(ROTATION_AXIS_X, I),
         matrix3x3_rotation(ROTATION_AXIS_Z, perihelion)
     };
     // clang-format on
-    Matrix3x3 helio_ecliptic_transform = matrix3x3_mul_chain(chain, ARRAY_SIZE(chain));
-    Vector3 helio_ecliptic = matrix3x3_mul_vector3(&helio_ecliptic_transform, &in_orbit);
+    Matrix3x3 const helio_ecliptic_transform = matrix3x3_mul_chain(chain, ARRAY_SIZE(chain));
+    Vector3 const helio_ecliptic = matrix3x3_mul_vector3(&helio_ecliptic_transform, &in_orbit);
 
-    f64 t = time_jc(date, false);
-    Vector3 earth = position_of_earth(t);
-    Vector3 geo_ecliptic = vector3_sub(&helio_ecliptic, &earth);
+    f64 const t = time_jc(date, false);
+    Vector3 const earth = position_of_earth(t);
+    Vector3 const geo_ecliptic = vector3_sub(&helio_ecliptic, &earth);
 
-    Matrix3x3 reference_transition_transform =
+    Matrix3x3 const reference_transition_transform =
             matrix3x3_reference_plane(REFERENCE_PLANE_ECLIPTIC, REFERENCE_PLANE_EQUATORIAL, 0);
-    Vector3 geo_equatorial = matrix3x3_mul_vector3(&reference_transition_transform, &geo_ecliptic);
+    Vector3 const geo_equatorial = matrix3x3_mul_vector3(&reference_transition_transform, &geo_ecliptic);
 
-    Matrix3x3 precession_transform = matrix3x3_precession(REFERENCE_PLANE_EQUATORIAL, 0, t);
-    Vector3 geo_equatorial_precessed = matrix3x3_mul_vector3(&precession_transform, &geo_equatorial);
+    Matrix3x3 const precession_transform = matrix3x3_precession(REFERENCE_PLANE_EQUATORIAL, 0, t);
+    Vector3 const geo_equatorial_precessed = matrix3x3_mul_vector3(&precession_transform, &geo_equatorial);
     return equatorial_from_vector3(&geo_equatorial_precessed);
 }
 
 /// Retrieves the name of the planet in string representation
-const char* planet_string(PlanetName name) {
+const char *planet_string(PlanetName const name) {
     switch (name) {
         case PLANET_MERCURY:
             return "Mercury";
@@ -145,6 +145,8 @@ const char* planet_string(PlanetName name) {
         case PLANET_NEPTUNE:
             return "Neptune";
         case PLANET_COUNT:
-            return "Invalid";
+        default:
+            break;
     }
+    return "Invalid";
 }

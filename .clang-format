@@ -43,9 +43,9 @@ MaxEmptyLinesToKeep: 2
 NamespaceIndentation: None
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: true
-PointerAlignment: Left
+PointerAlignment: Right
 ReflowComments: true
-SortIncludes: true
+SortIncludes: CaseSensitive
 SpaceAfterCStyleCast: true
 SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: false

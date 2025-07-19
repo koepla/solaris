@@ -9,27 +9,27 @@
     {
       "name": "default",
       "hidden": true,
-      "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "cacheVariables": {
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/${presetName}",
-        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/build/${presetName}",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "BUILD_DIRECTORY": "${sourceDir}/build/${presetName}"
-      }
+      "generator": "Ninja"
     },
     {
       "name": "debug",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/${presetName}",
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG": "${sourceDir}/build/${presetName}",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       }
     },
     {
       "name": "release",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/${presetName}",
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE": "${sourceDir}/build/${presetName}",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       }
     },
     {
@@ -44,7 +44,9 @@
         "rhs": "Windows"
       },
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang"
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "TARGET_BUILD_PLATFORM": "win32"
       }
     },
     {
@@ -59,7 +61,26 @@
         "rhs": "Linux"
       },
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang"
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "TARGET_BUILD_PLATFORM": "linux"
+      }
+    },
+    {
+      "name": "mac",
+      "hidden": true,
+      "inherits": [
+        "default"
+      ],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "TARGET_BUILD_PLATFORM": "mac"
       }
     },
     {
@@ -89,6 +110,20 @@
         "lin",
         "release"
       ]
+    },
+    {
+      "name": "mac-64-debug",
+      "inherits": [
+        "mac",
+        "debug"
+      ]
+    },
+    {
+      "name": "mac-64-release",
+      "inherits": [
+        "mac",
+        "release"
+      ]
     }
   ],
   "buildPresets": [
@@ -98,24 +133,76 @@
       "jobs": 16
     },
     {
-      "name": "win-64-driver",
+      "name": "win-64-debug",
       "configurePreset": "win-64-debug",
       "inherits": [
         "default"
       ],
-      "targets": [
-        "solaris-driver"
-      ]
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
     },
     {
-      "name": "lin-64-driver",
+      "name": "win-64-release",
+      "configurePreset": "win-64-release",
+      "inherits": [
+        "default"
+      ],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "lin-64-debug",
       "configurePreset": "lin-64-debug",
       "inherits": [
         "default"
       ],
-      "targets": [
-        "solaris-driver"
-      ]
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "lin-64-release",
+      "configurePreset": "lin-64-release",
+      "inherits": [
+        "default"
+      ],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "mac-64-debug",
+      "configurePreset": "mac-64-debug",
+      "inherits": [
+        "default"
+      ],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "mac-64-release",
+      "configurePreset": "mac-64-release",
+      "inherits": [
+        "default"
+      ],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
     }
   ]
 }

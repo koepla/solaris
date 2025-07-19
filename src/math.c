@@ -26,88 +26,82 @@
 #include <solaris/math.h>
 
 /// Retrieves the absolute value
-f64 math_abs(f64 x) {
+f64 math_abs(f64 const x) {
     return x < 0 ? -x : x;
 }
 
 /// Floors the value
-f64 math_floor(f64 x) {
+f64 math_floor(f64 const x) {
     return floor(x);
 }
 
 /// Retrieves the square root of the value
-f64 math_sqrt(f64 x) {
+f64 math_sqrt(f64 const x) {
     return sqrt(x);
 }
 
 /// Converts radians to degrees
-f64 math_degrees(f64 radians) {
+f64 math_degrees(f64 const radians) {
     return radians * 180.0 / PI;
 }
 
 /// Converts degrees to radians
-f64 math_radians(f64 degrees) {
+f64 math_radians(f64 const degrees) {
     return degrees * PI / 180.0;
 }
 
 /// Retrieves the fractional part of the number
-f64 math_fraction(f64 x) {
+f64 math_fraction(f64 const x) {
     return x - floor(x);
 }
 
 /// Performs modulo operation on the numbers
-f64 math_modulo(f64 a, f64 b) {
-    return b * math_fraction(a / b);
-}
-
-/// Alter x so that it stays in the interval [low;high]
-f64 math_bound(f64 x, f64 low, f64 high) {
-    x -= low;
-    return math_modulo(x, high - low) + low;
+f64 math_modulo(f64 const a, f64 const b) {
+    return fmod(a, b);
 }
 
 /// Retrieves the sine value of the specified angle
-f64 math_sine(f64 angle) {
+f64 math_sine(f64 const angle) {
     return sin(math_radians(angle));
 }
 
 /// Retrieves the cosine value of the specified angle
-f64 math_cosine(f64 angle) {
+f64 math_cosine(f64 const angle) {
     return cos(math_radians(angle));
 }
 
 /// Retrieves the tangent value of the specified angle
-f64 math_tangent(f64 angle) {
+f64 math_tangent(f64 const angle) {
     return tan(math_radians(angle));
 }
 
 /// Retrieves the sine angle of the specified fraction
-f64 math_arc_sine(f64 x) {
+f64 math_arc_sine(f64 const x) {
     return math_degrees(asin(x));
 }
 
 /// Retrieves the cosine angle of the specified fraction
-f64 math_arc_cosine(f64 x) {
+f64 math_arc_cosine(f64 const x) {
     return math_degrees(acos(x));
 }
 
 /// Retrieves the tangent angle of the specified fraction
-f64 math_arc_tangent(f64 x) {
+f64 math_arc_tangent(f64 const x) {
     return math_degrees(atan(x));
 }
 
 /// Retrieves the tangent angle of the specified fraction
-f64 math_arc_tangent2(f64 y, f64 x) {
+f64 math_arc_tangent2(f64 const y, f64 const x) {
     return math_degrees(atan2(y, x));
 }
 
 /// Converts degrees, arc minutes and arc seconds to fractional degrees
-f64 math_daa_to_degrees(f64 degrees, f64 arc_minutes, f64 arc_seconds) {
-    f64 result = math_abs(degrees) + math_abs(arc_minutes) / 60.0 + math_abs(arc_seconds) / 3600.0;
+f64 math_daa_to_degrees(f64 const degrees, f64 const arc_minutes, f64 const arc_seconds) {
+    f64 const result = math_abs(degrees) + math_abs(arc_minutes) / 60.0 + math_abs(arc_seconds) / 3600.0;
     return degrees < 0.0 ? -result : result;
 }
 
 /// Converts hour, minute and second to fractional degrees
-f64 math_hms_to_degrees(f64 hour, f64 minute, f64 second) {
+f64 math_hms_to_degrees(f64 const hour, f64 const minute, f64 const second) {
     return 15.0 * (hour + minute / 60.0 + second / 3600.0);
 }

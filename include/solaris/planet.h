@@ -26,7 +26,6 @@
 
 #include <solaris/linear.h>
 #include <solaris/math.h>
-#include <solaris/string.h>
 #include <solaris/time.h>
 
 #ifdef __cplusplus
@@ -64,18 +63,18 @@ typedef struct Planet {
 /// @param planet The planet
 /// @param date date and time for the computation
 /// @return the computed orbital coordinates
-SOLARIS_API Elements planet_position_orbital(Planet* planet, Time* date);
+SOLARIS_API Elements planet_position_orbital(Planet const *planet, Time const *date);
 
 /// Computes the equatorial position of the planet
 /// @param planet The planet
 /// @param date date and time for the computation
 /// @return the computed equatorial coordinates
-SOLARIS_API Equatorial planet_position_equatorial(Planet* planet, Time* date);
+SOLARIS_API Equatorial planet_position_equatorial(Planet const *planet, Time const *date);
 
 /// Retrieves the name of the planet in string representation
 /// @param name The name of the planet
 /// @return The name in string representation
-SOLARIS_API const char* planet_string(PlanetName name);
+SOLARIS_API const char *planet_string(PlanetName name);
 
 #ifdef __cplusplus
 }
