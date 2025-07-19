@@ -177,6 +177,7 @@ typedef struct Object {
 } Object;
 
 /// Computes the precessed equatorial position of the fixed object with the equinox of date
+/// @param body The body of which the position shall be computed
 /// @param date_time Date for computation
 /// @return precessed position
 SOLARIS_API Equatorial object_position(Object* body, Time* date_time);
