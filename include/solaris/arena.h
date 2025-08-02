@@ -30,7 +30,7 @@
 extern "C" {
 #endif
 
-typedef void *(*MemoryReserveFunc)(usize);
+typedef void *(*MemoryReserveFunc)(size_t);
 typedef void (*MemoryReleaseFunc)(void *);
 
 typedef enum MemoryAlignment { ALIGNMENT1 = 1, ALIGNMENT4 = 4, ALIGNMENT8 = 8 } MemoryAlignment;

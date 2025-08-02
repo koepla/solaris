@@ -53,7 +53,7 @@ typedef int64_t s64;
 
 typedef double f64;
 
-typedef size_t usize;
+typedef u64 usize;
 typedef s64 ssize;
 
 typedef u8 b8;
